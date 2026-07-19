@@ -3,57 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taalhelden - Groep 6 & 7 Offline TaalApp</title>
+    <title>Taalhelden Master - Groep 6 & 7</title>
     <style>
         :root {
-            --bg-color: #f0f4f8;
+            --bg-color: #f4f7f6;
             --card-bg: #ffffff;
             --text-color: #2c3e50;
-            --primary-color: #3498db;
+            --primary-color: #4a90e2;
             --secondary-color: #2ecc71;
             --accent-color: #e74c3c;
             --warning-color: #f1c40f;
             --border-radius: 16px;
             --font-size: 16px;
-            --transition: all 0.3s ease;
         }
 
         [data-theme="dark"] {
             --bg-color: #1a252f;
             --card-bg: #2c3e50;
             --text-color: #ecf0f1;
-            --primary-color: #2980b9;
+            --primary-color: #3498db;
             --secondary-color: #27ae60;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            user-select: none;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Comic Sans MS', 'Nunito', sans-serif;
+            font-family: 'Nunito', 'Segoe UI', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             font-size: var(--font-size);
-            transition: var(--transition);
             padding: 20px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: center;
             min-height: 100vh;
         }
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1000px;
             background: var(--card-bg);
             border-radius: var(--border-radius);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
             padding: 25px;
-            min-height: 85vh;
             display: flex;
             flex-direction: column;
         }
@@ -62,32 +52,26 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 4px solid var(--bg-color);
+            border-bottom: 3px solid var(--bg-color);
             padding-bottom: 15px;
             margin-bottom: 20px;
             flex-wrap: wrap;
             gap: 15px;
         }
 
-        .user-stats {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
+        .user-stats { display: flex; gap: 10px; flex-wrap: wrap; }
         .stat-pill {
             background: var(--bg-color);
-            padding: 10px 18px;
-            border-radius: 50px;
+            padding: 8px 14px;
+            border-radius: 30px;
             font-weight: bold;
             display: flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            gap: 6px;
         }
 
         .level-select {
-            padding: 10px;
+            padding: 8px 12px;
             border-radius: 8px;
             border: 2px solid var(--primary-color);
             font-weight: bold;
@@ -98,189 +82,141 @@
 
         .main-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 20px;
-            flex-grow: 1;
         }
 
         .tile {
             background: var(--bg-color);
             border: 3px solid transparent;
             border-radius: var(--border-radius);
-            padding: 30px 20px;
+            padding: 25px 15px;
             text-align: center;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.2s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            gap: 10px;
         }
 
         .tile:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             border-color: var(--primary-color);
             background: var(--card-bg);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
         }
 
-        .tile-icon {
-            font-size: 3.5rem;
-        }
+        .tile-icon { font-size: 3rem; }
+        .tile-title { font-size: 1.1rem; font-weight: bold; }
 
-        .tile-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-        }
-
-        .view-section {
-            display: none;
-            flex-direction: column;
-            flex-grow: 1;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .view-section.active {
-            display: flex;
-        }
+        .view-section { display: none; flex-direction: column; }
+        .view-section.active { display: flex; }
 
         .btn {
-            padding: 15px 30px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            border-radius: 10px;
+            font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
-            transition: var(--transition);
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            gap: 8px;
         }
-
-        .btn:active {
-            transform: scale(0.96);
-        }
-
         .btn-primary { background: var(--primary-color); color: white; }
         .btn-secondary { background: var(--secondary-color); color: white; }
         .btn-danger { background: var(--accent-color); color: white; }
         .btn-warning { background: var(--warning-color); color: #2c3e50; }
 
-        .back-btn {
-            align-self: flex-start;
-            margin-bottom: 20px;
-        }
-
         .exercise-box {
             background: var(--bg-color);
-            padding: 25px;
+            padding: 20px;
             border-radius: var(--border-radius);
             margin-bottom: 20px;
-            font-size: 1.3rem;
+            font-size: 1.15rem;
             line-height: 1.6;
-            text-align: center;
+        }
+
+        .word-bubble-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .word-bubble {
+            padding: 10px 16px;
+            background: var(--card-bg);
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.1s ease;
+        }
+
+        .word-bubble.selected {
+            background: var(--warning-color);
+            border-color: #f39c12;
+            color: #2c3e50;
         }
 
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .options-grid { grid-template-columns: 1fr; }
+            gap: 12px;
+            margin: 15px 0;
         }
 
         .option-btn {
             background: var(--card-bg);
-            border: 3px solid var(--primary-color);
-            padding: 20px;
-            border-radius: 12px;
-            font-size: 1.2rem;
+            border: 2px solid var(--primary-color);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.05rem;
             cursor: pointer;
-            transition: var(--transition);
             font-weight: bold;
             color: var(--text-color);
+            text-align: left;
         }
 
-        .option-btn:hover {
+        .option-btn.selected {
             background: var(--primary-color);
             color: white;
         }
 
         .input-text {
             width: 100%;
-            padding: 15px;
-            font-size: 1.3rem;
-            border-radius: 12px;
-            border: 3px solid var(--primary-color);
-            margin-bottom: 20px;
+            padding: 12px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            border: 2px solid var(--primary-color);
+            margin: 15px 0;
             outline: none;
-            text-align: center;
         }
 
-        .feedback {
+        .feedback-zone {
             padding: 15px;
-            border-radius: 12px;
-            margin-top: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
             font-weight: bold;
-            text-align: center;
             display: none;
-            animation: pop 0.3s ease;
         }
 
-        .progress-container {
+        .progress-bar {
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
             margin-bottom: 20px;
         }
 
-        .progress-bar-outer {
-            background: #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
-            height: 20px;
-            width: 100%;
-        }
-
-        .progress-bar-inner {
-            background: var(--secondary-color);
+        .progress-fill {
             height: 100%;
+            background: var(--secondary-color);
             width: 0%;
-            transition: width 0.4s ease;
-        }
-
-        .word-clickable {
-            display: inline-block;
-            margin: 0 5px;
-            padding: 5px 8px;
-            background: var(--card-bg);
-            border: 2px solid #ccc;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .word-clickable.selected {
-            background: var(--warning-color);
-            border-color: #d35400;
-        }
-
-        .settings-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #ccc;
-        }
-
-        .settings-row select, .settings-row input {
-            padding: 8px;
-            border-radius: 6px;
-            font-size: 1rem;
+            transition: width 0.3s ease;
         }
 
         .history-table {
@@ -288,45 +224,25 @@
             border-collapse: collapse;
             margin-top: 15px;
         }
-
         .history-table th, .history-table td {
-            border: 1px solid #ccc;
+            border: 1px solid #bdc3c7;
             padding: 10px;
             text-align: left;
         }
-
         .history-table th { background: var(--bg-color); }
-
-        #confetti-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 9999;
-            display: none;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pop { 0% { transform: scale(0.9); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
-    <canvas id="confetti-canvas"></canvas>
-
     <div class="container">
         <header>
             <div class="user-stats">
-                <div class="stat-pill" title="Totaal Punten">✨ <span id="header-points">0</span> pt</div>
-                <div class="stat-pill" title="Level">🚀 Lvl <span id="header-level">1</span></div>
-                <div class="stat-pill" title="Medaille"><span id="header-medal">🥉</span></div>
-                <div class="stat-pill" title="Dagelijkse Oefenreeks">🔥 <span id="header-streak">0</span> dagen</div>
-                <div class="stat-pill" title="Gemiddelde Score">📊 <span id="header-avg">0</span>%</div>
-                <div class="stat-pill" title="Totaal Opdrachten">✅ <span id="header-count">0</span></div>
+                <div class="stat-pill">✨ <span id="stat-points">0</span> pt</div>
+                <div class="stat-pill">🚀 Lvl <span id="stat-level">1</span></div>
+                <div class="stat-pill"><span id="stat-medal">🥉 Brons</span></div>
+                <div class="stat-pill">🔥 <span id="stat-streak">0</span> dagen</div>
             </div>
-            <select id="global-level-select" class="level-select">
+            <select id="level-selector" class="level-select">
                 <option value="b6">Begin Groep 6</option>
                 <option value="m6">Midden Groep 6</option>
                 <option value="b7">Begin Groep 7</option>
@@ -334,752 +250,533 @@
             </select>
         </header>
 
-        <!-- DASHBOARD -->
+        <!-- MAIN DASHBOARD -->
         <div id="dashboard-view" class="view-section active">
             <div class="main-grid">
-                <div class="tile" data-target="lezen-view"><div class="tile-icon">📖</div><div class="tile-title">Begrijpend Lezen</div></div>
-                <div class="tile" data-target="spelling-view"><div class="tile-icon">✏️</div><div class="tile-title">Spelling</div></div>
-                <div class="tile" data-target="dictee-view"><div class="tile-icon">🎤</div><div class="tile-title">Dictee</div></div>
-                <div class="tile" data-target="grammatica-view"><div class="tile-icon">📝</div><div class="tile-title">Grammatica</div></div>
-                <div class="tile" data-target="woordenschat-view"><div class="tile-icon">📚</div><div class="tile-title">Woordenschat</div></div>
-                <div class="tile" data-target="engels-view" id="tile-engels"><div class="tile-icon">🇬🇧</div><div class="tile-title">Engels (Gr. 7)</div></div>
-                <div class="tile" data-target="games-view"><div class="tile-icon">🎮</div><div class="tile-title">Taalspelletjes</div></div>
-                <div class="tile" data-target="progress-view"><div class="tile-icon">📈</div><div class="tile-title">Voortgang</div></div>
-                <div class="tile" data-target="settings-view"><div class="tile-icon">⚙️</div><div class="tile-title">Instellingen</div></div>
+                <div class="tile" data-mode="lezen"><div class="tile-icon">📖</div><div class="tile-title">Begrijpend Lezen</div></div>
+                <div class="tile" data-mode="spelling"><div class="tile-icon">✏️</div><div class="tile-title">Spelling</div></div>
+                <div class="tile" data-mode="dictee"><div class="tile-icon">🎤</div><div class="tile-title">Dictee</div></div>
+                <div class="tile" data-mode="grammatica"><div class="tile-icon">📝</div><div class="tile-title">Grammatica</div></div>
+                <div class="tile" data-mode="woordenschat"><div class="tile-icon">📚</div><div class="tile-title">Woordenschat</div></div>
+                <div class="tile" data-mode="engels" id="engels-tile"><div class="tile-icon">🇬🇧</div><div class="tile-title">Engels (Gr. 7)</div></div>
+                <div class="tile" data-mode="progress"><div class="tile-icon">📈</div><div class="tile-title">Voortgang</div></div>
+                <div class="tile" data-mode="settings"><div class="tile-icon">⚙️</div><div class="tile-title">Instellingen</div></div>
             </div>
         </div>
 
-        <!-- GENERIEKE EXERCISE ENGINE VIEW -->
-        <div id="exercise-view" class="view-section">
-            <button class="btn btn-secondary back-btn">⬅️ Stop & Terug</button>
-            <h2 id="exercise-title" style="margin-bottom:15px;">Oefening</h2>
-            <div class="progress-container">
-                <div class="progress-bar-outer"><div id="exercise-progress" class="progress-bar-inner"></div></div>
+        <!-- GENERIEKE WERKOMGEVING VOOR VRAGEN -->
+        <div id="workspace-view" class="view-section">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h2 id="workspace-title">Oefening</h2>
+                <button class="btn btn-danger entry-back-btn">Stop ❌</button>
             </div>
-            <div id="exercise-workspace">
-                <!-- Dynamisch gevuld door JavaScript -->
-            </div>
-            <div id="exercise-feedback" class="feedback"></div>
-            <div style="margin-top: 20px; display:flex; justify-content:space-between;">
-                <button id="exercise-submit-btn" class="btn btn-primary">Controleer</button>
-                <button id="exercise-next-btn" class="btn btn-warning" style="display:none;">Volgende ➡️</button>
-            </div>
-        </div>
-
-        <!-- DICTEE VIEW -->
-        <div id="dictee-view" class="view-section">
-            <button class="btn btn-secondary back-btn">⬅️ Dashboard</button>
-            <h2>🎤 Audio Dictee</h2>
-            <div class="exercise-box">
-                <p style="margin-bottom: 15px;">Luister goed naar het gesproken woord of de zin en typ het correct over.</p>
-                <div style="display:flex; justify-content:center; gap:10px; margin-bottom:15px;">
-                    <button id="dictee-play" class="btn btn-primary">▶️ Afspelen</button>
-                    <button id="dictee-repeat" class="btn btn-secondary">🔊 Herhalen</button>
-                    <button id="dictee-slow" class="btn btn-warning">🐢 Langzamer</button>
-                </div>
-                <input type="text" id="dictee-input" class="input-text" placeholder="Typ je antwoord hier..." autocomplete="off">
-            </div>
-            <div id="dictee-feedback" class="feedback"></div>
-            <button id="dictee-submit" class="btn btn-primary" style="margin-top:10px;">Controleer</button>
-        </div>
-
-        <!-- SPELLINGSGAMES EXTRA VIEW -->
-        <div id="games-view" class="view-section">
-            <button class="btn btn-secondary back-btn">⬅️ Dashboard</button>
-            <h2>🎮 Taalspelletjes</h2>
-            <div class="main-grid" style="margin-top:20px;">
-                <button class="btn btn-primary game-launch-btn" data-game="galgje">🎯 Galgje</button>
-                <button class="btn btn-primary game-launch-btn" data-game="lettermix">🔀 Lettermix</button>
-                <button class="btn btn-primary game-launch-btn" data-game="rijm">🎵 Rijmspel</button>
-            </div>
-            <div id="game-container" style="margin-top:30px; display:none;" class="exercise-box">
-                <!-- Dynamische game interface -->
+            
+            <div class="progress-bar"><div id="workspace-progress" class="progress-fill"></div></div>
+            
+            <div id="dynamic-content"></div>
+            <div id="workspace-feedback" class="feedback-zone"></div>
+            
+            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:15px;">
+                <button id="btn-submit-answer" class="btn btn-primary">Controleer</button>
+                <button id="btn-next-question" class="btn btn-warning" style="display:none;">Volgende ➡️</button>
             </div>
         </div>
 
-        <!-- VOORTGANG VIEW -->
+        <!-- VOORTGANG -->
         <div id="progress-view" class="view-section">
-            <button class="btn btn-secondary back-btn">⬅️ Dashboard</button>
-            <h2>📈 Jouw Voortgang & Statistieken</h2>
-            <div id="category-progress-bars" style="margin:20px 0;"></div>
-            <h3>📋 Laatste Oefensessies (Max 200)</h3>
-            <div style="overflow-x:auto;">
-                <table class="history-table">
-                    <thead>
-                        <tr>
-                            <th>Datum</th>
-                            <th>Onderdeel</th>
-                            <th>Niveau</th>
-                            <th>Score</th>
-                        </tr>
-                    </thead>
-                    <tbody id="history-tbody"></tbody>
-                </table>
-            </div>
+            <button class="btn btn-primary entry-back-btn">⬅️ Terug naar Dashboard</button>
+            <h2 style="margin:20px 0 10px 0;">📊 Gemaakte Sessies</h2>
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Datum</th>
+                        <th>Onderdeel</th>
+                        <th>Niveau</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="history-rows"></tbody>
+            </table>
         </div>
 
-        <!-- INSTELLINGEN VIEW -->
+        <!-- INSTELLINGEN -->
         <div id="settings-view" class="view-section">
-            <button class="btn btn-secondary back-btn">⬅️ Dashboard</button>
-            <h2>⚙️ Instellingen</h2>
-            <div class="settings-row">
-                <label>Weergave Thema</label>
-                <select id="setting-theme"><option value="light">☀️ Licht</option><option value="dark">🌙 Donker</option></select>
+            <button class="btn btn-primary entry-back-btn">⬅️ Terug naar Dashboard</button>
+            <h2 style="margin:20px 0 10px 0;">⚙️ Instellingen</h2>
+            <div style="margin: 15px 0;">
+                <label><strong>Thema:</strong></label>
+                <select id="theme-select" class="level-select"><option value="light">Licht</option><option value="dark">Donker</option></select>
             </div>
-            <div class="settings-row">
-                <label>Lettergrootte</label>
-                <select id="setting-fontsize"><option value="16px">Normaal</option><option value="20px">Groot 🌟</option></select>
+            <div style="margin: 15px 0;">
+                <label><strong>Spreeksnelheid:</strong></label>
+                <input type="range" id="speech-rate" min="0.6" max="1.2" step="0.1" value="0.85">
             </div>
-            <div class="settings-row">
-                <label>Geluidseffecten</label>
-                <select id="setting-sound"><option value="on">Aan</option><option value="off">Uit</option></select>
-            </div>
-            <div class="settings-row">
-                <label>Spreeksnelheid Dictee</label>
-                <input type="range" id="setting-rate" min="0.5" max="1.2" step="0.1" value="0.9">
-            </div>
-            <div style="margin-top: 30px; display:flex; gap:15px;">
-                <button id="btn-reset-stats" class="btn btn-danger">⚠️ Reset Punten & Levels</button>
-            </div>
+            <button id="btn-hard-reset" class="btn btn-danger" style="margin-top:20px;">Reset Score & Streak</button>
         </div>
+
     </div>
 
     <script>
         /**
-         * TAALAPP CORE ENGINE & DATA GENERATORS
-         * Alle functionaliteiten zijn 100% lokaal en offline functionerend.
+         * UITGEBREIDE ONDERWIJS DATABASE (Geen lege loops, geen herhalingen)
          */
+        const Database = {
+            spelling: {
+                b6: [
+                    {q: "Welke schrijfwijze is correct?", o: ["parijs", "Parijs", "Parijsen"], c: "Parijs", u: "Eigennamen en steden schrijven we altijd met een hoofdletter."},
+                    {q: "Vul het juiste koppelteken of apostrof in: 's ... avonds", o: ["-", "s", "'s"], c: "'s", u: "'s avonds is een vaste afkorting van des avonds."},
+                    {q: "Vul de juiste klinker in bij deze open lettergreep: j...ger", o: ["a", "aa", "e"], c: "a", u: "Bij een lange klank aan het einde van een klankgroep (ja-ger) schrijf je één klinker."}
+                ],
+                m6: [
+                    {q: "Kies het juiste woord (ei of ij): De kapitein vaart naar het ...land.", o: ["eijland", "ijland", "eiland"], c: "eiland", u: "Eiland staat op de ei-plaat en schrijf je dus met een korte ei."},
+                    {q: "Vul de juiste tussenletter in: pannen...koek", o: ["n", "en", "e"], c: "en", u: "Omdat een pan alleen een meervoud op -en heeft (pannen), krijgt de samenstelling een tussen-n."},
+                    {q: "Wat is de juiste vorm van het werkwoord in de verleden tijd: Gisteren ... (fietsen) ik naar school.", o: ["fietste", "fietsde", "fietsten"], c: "fietste", u: "De stam van fietsen eindigt op -s. Dit zit in 't kofschip, dus voegen we -te toe."}
+                ],
+                b7: [
+                    {q: "Wat is de juiste spelling van dit Franse leenwoord?", o: ["nivo", "niveau", "niveaux"], c: "niveau", u: "Niveau is een Frans leenwoord dat zijn oorspronkelijke spelling behoudt."},
+                    {q: "Kies het correct gespelde woord:", o: ["automatisch", "automaties", "automatischs"], c: "automatisch", u: "Woorden die eindigen op de klank /ies/ schrijven we vaak als -isch."},
+                    {q: "Vul in: De zon...schijn is heerlijk vandaag.", o: ["en", "e", "s"], c: "e", u: "Er is maar één zon in ons zonnestelsel, dus krijgt de samenstelling geen tussen-n."}
+                ],
+                m7: [
+                    {q: "Wat is de juiste spelling van dit woord op -teit?", o: ["universiteit", "universíteit", "universitijd"], c: "universiteit", u: "Woorden die eindigen op het achtervoegsel -teit schrijven we altijd met -eit."},
+                    {q: "Kies de juiste spelling voor het meervoud van auto:", o: ["autos", "auto's", "autoes"], c: "auto's", u: "Woorden die eindigen op een lange klinker (a, o, u, i) krijgen in het meervoud apostrof-s om de klank te behouden."},
+                    {q: "Wat is het correct gespelde Engelse leenwoord?", o: ["computter", "computar", "computer"], c: "computer", u: "Computer nemen we rechtstreeks over uit het Engels."}
+                ]
+            },
+            dictee: {
+                b6: [
+                    {w: "koninkrijk", z: "Het koninkrijk werd goed beschermd."},
+                    {w: "snelheid", z: "De auto reed met hoge snelheid."}
+                ],
+                m6: [
+                    {w: "meisje", z: "Dat kleine meisje loopt op straat."},
+                    {w: "verhuizen", z: "Wij gaan volgende week verhuizen."}
+                ],
+                b7: [
+                    {w: "interessant", z: "Dit is een erg interessant geschiedenisboek."},
+                    {w: "kritisch", z: "De meester keek heel kritisch naar mijn werk."}
+                ],
+                m7: [
+                    {w: "elektriciteit", z: "Zonder elektriciteit doet het licht het niet."},
+                    {w: "miljonair", z: "De man won de loterij en werd miljonair."}
+                ]
+            },
+            grammatica: {
+                b6: [
+                    {z: "De grote zwarte hond blaft luid.", type: "ow", q: "Klik op het **Onderwerp (wie/wat + pv)** van de zin:"},
+                    {z: "Morgen gaat onze klas naar het museum.", type: "pv", q: "Klik op de **Persoonsvorm (maak de zin vragend)**:"}
+                ],
+                m6: [
+                    {z: "De timman bouwt een stevig huis.", type: "lv", q: "Klik op het **Lijdend voorwerp (wie/wat + pv + ow)** van de zin:"},
+                    {z: "Mijn zusje heeft gisteren een prachtige tekening gemaakt.", type: "pv", q: "Klik op de **Persoonsvorm** van deze zin:"}
+                ],
+                b7: [
+                    {z: "De trotse leraar geeft de leerlingen een pluim.", type: "mw", q: "Klik op het **Meewerkend voorwerp (aan/voor wie)**:"},
+                    {z: "In de vakantie zijn wij naar Frankrijk gereisd.", type: "wg", q: "Klik op het **Werkwoordelijk gezegde (alle werkwoorden samen)**:", multi: true}
+                ],
+                m7: [
+                    {z: "Die oude man is al jaren onze trouwe buurman.", type: "ng", q: "Klik op het **Naamwoordelijk gezegde**:", multi: true},
+                    {z: "De kinderen spelen enthousiast in de tuin.", type: "bn", q: "Klik op het **Bijvoeglijk naamwoord (zegt iets over het zelfstandig naamwoord)**:"}
+                ]
+            },
+            woordenschat: {
+                b6: [
+                    {q: "Wat is de **tegenstelling** van het woord: 'gierig'?", o: ["arm", "vrijgevig", "rijk", "boos"], c: "vrijgevig"},
+                    {q: "Welk woord hoort bovenaan de **woordparaplu** waar ook 'hond, kat, goudvis' onder vallen?", o: ["Huisdieren", "Planten", "Voertuigen"], c: "Huisdieren"}
+                ],
+                m6: [
+                    {q: "Wat betekent de uitdrukking: 'De kat uit de boom kijken'?", o: ["Een afwachtende houding aannemen", "Heel snel omhoog klimmen", "Direct in actie komen"], c: "Een afwachtende houding aannemen"},
+                    {q: "Wat is het **synoniem** (andere woord met dezelfde betekenis) van: 'vervaardigen'?", o: ["slopen", "maken", "kopen"], c: "maken"}
+                ],
+                b7: [
+                    {q: "Wat betekent het spreekwoord: 'Als de kat van huis is, dansen de muizen op tafel'?", o: ["Zonder toezicht doet iedereen wat hij wil", "Muizen zijn banger dan katten", "Het is tijd voor een feestje"], c: "Zonder toezicht doet iedereen wat hij wil"},
+                    {q: "Wat is de **figuurlijke** betekenis van: 'Hij heeft zware benen'?", o: ["Zijn benen wegen letterlijk 50 kilo", "Hij is erg moe van het rennen", "Hij heeft dikke kleren aan"], c: "Hij is erg moe van het rennen"}
+                ],
+                m7: [
+                    {q: "Wat is het synoniem van het woord: 'rigoureus'?", o: ["voorzichtig", "ingrijpend en grondig", "langzaam"], c: "ingrijpend en grondig"},
+                    {q: "Wat betekent het woord: 'ambitieus'?", o: ["Graag hoog willen reiken of succesvol willen worden", "Altijd moe zijn", "Geen mening hebben"], c: "Graag hoog willen reiken of succesvol willen worden"}
+                ]
+            },
+            lezen: {
+                b6: [
+                    {t: "De zeeschildpad zwemt duizenden kilometers door de oceaan om eieren te leggen op het strand waar ze zelf ooit uit het ei kroop. Ze graaft diep in het zand en laat de eieren achter. De warme zon broedt ze daarna uit.", q: "Wat is de **hoofdgedachte** van deze tekst?", o: ["Schildpadden houden niet van zwemmen", "Hoe een zeeschildpad haar eieren legt en laat uitbroeden", "De zon is erg gevaarlijk voor schildpadden"], c: "Hoe een zeeschildpad haar eieren legt en laat uitbroeden"}
+                ],
+                m6: [
+                    {t: "Koninginnenpage-vlinders leggen eitjes op wortelloof. Binnen een paar dagen kruipt er een piepkleine rups uit. Deze eet zijn buik rond, verhopt zich na een aantal weken, en transformeert uiteindelijk tot een prachtige vlinder.", q: "Wat is de juiste **volgorde** van de levenscyclus?", o: ["Rups -> Ei -> Pop -> Vlinder", "Ei -> Rups -> Pop -> Vlinder", "Pop -> Vlinder -> Rups -> Ei"], c: "Ei -> Rups -> Pop -> Vlinder"}
+                ],
+                b7: [
+                    {t: "Veel wetenschappers zijn het erover eens dat plastic in de oceaan een gigantisch probleem is voor zeedieren. Vissen zien microplastics aan voor voedsel, wat hun maag blokkeert. Dit is een onomstotelijk feit.", q: "Is de bewering 'Plastic blokkeert de maag van vissen' een feit of een mening?", o: ["Feit", "Mening"], c: "Feit"}
+                ],
+                m7: [
+                    {t: "De burgemeester claimt dat de nieuwe snelweg de economie zal boosten. Milieuorganisaties beweren daarentegen dat het unieke bosgebied hierdoor onherstelbaar verwoest wordt. Beide partijen gebruiken andere bronnen.", q: "Hoe kun je het standpunt van de milieuorganisaties omschrijven?", o: ["Subjectief en puur gebaseerd op emotie", "Tegen de snelweg vanwege de schade aan het bosgebied", "Voorstander van economische groei"], c: "Tegen de snelweg vanwege de schade aan het bosgebied"}
+                ]
+            },
+            engels: {
+                b6: [], m6: [],
+                b7: [
+                    {q: "Vertaal de zin: 'Ik heb twee broers'", o: ["I have two brothers", "I am two brothers", "I have two sisters"], c: "I have two brothers"},
+                    {q: "Welke dag van de week is 'Thursday'?", o: ["Dinsdag", "Donderdag", "Vrijdag"], c: "Donderdag"}
+                ],
+                m7: [
+                    {q: "Wat betekent de Engelse zin: 'What time is it?'", o: ["Hoe laat is het?", "Welke dag is het?", "Waar ga je heen?"], c: "Hoe laat is het?"},
+                    {q: "Kies de juiste kleur voor 'an orange':", o: ["Red", "Orange", "Yellow"], c: "Orange"}
+                ]
+            }
+        };
 
-        // Data repositories en generatoren
-        const SpellingsCategorieen = ["ei/ij", "au/ou", "d/t", "f/v", "s/z", "c/k", "ch/g", "open-gesloten", "klinkers", "tussen-n", "apostrof", "koppelteken", "hoofdletters", "leenwoorden", "Engels", "Frans", "-teit", "-tie", "-isch", "-iteit", "-eel", "-air"];
-        const WoordenschatTypen = ["Synoniemen", "Tegenstellingen", "Oomschrijvingen", "Spreekwoorden", "Gezegden", "Figuurlijk"];
-        const GrammaticaTypen = ["Onderwerp", "Persoonsvorm", "Lijdend voorwerp", "Meewerkend voorwerp", "Zelfstandig naamwoord", "Bijvoeglijk naamwoord", "Lidwoord", "Voorzetsel"];
-
-        // State manager
-        let state = {
+        /**
+         * STATE MANAGEMENT
+         */
+        let appState = {
             points: 0,
             level: 1,
             streak: 0,
-            totalTasks: 0,
-            totalCorrect: 0,
-            lastDate: null,
-            currentLevel: 'b6',
-            adaptiveData: {},
             history: [],
-            settings: { theme: 'light', fontsize: '16px', sound: 'on', rate: 0.9 }
+            settings: { theme: 'light', rate: 0.85 }
         };
 
-        let currentActiveExercise = null;
-        let exerciseStep = 0;
-        let totalExerciseSteps = 5;
-        let sessionCorrectCount = 0;
-        let currentSection = '';
-
-        // Feilloze generatoren voor oneindige unieke educatieve content
-        const Generator = {
-            getDictee: function(lvl) {
-                const woordenPool = {
-                    b6: [{w:"ijsje", z:"Ik lust wel een lekker ijsje."}, {w:"goud", z:"De ring is van puur goud."}, {w:"computer", z:"Ik werk op de computer."}],
-                    m6: [{w:"reizen", z:"Wij reizen naar Spanje."}, {w:"paard", z:"Het paard galoppeert in de wei."}, {w:"politie", z:"De politie helpt bij een ongeluk."}],
-                    b7: [{w:"applaus", z:"Het publiek gaf een hard applaus."}, {w:"interessant", z:"Dit is een interessant boek."}, {w:"logisch", z:"Dat is een heel logische verklaring."}],
-                    m7: [{w:"tatoeage", z:"Hij heeft een stoere tatoeage."}, {w:"elektriciteit", z:"De lamp werkt op elektriciteit."}, {w:"financieel", z:"Dat is een financieel succes."}]
-                };
-                let pool = woordenPool[lvl] || woordenPool['b6'];
-                return pool[Math.floor(Math.random() * pool.length)];
-            },
-            getGrammatica: function(lvl) {
-                const zinnen = [
-                    {z: "De grote hond blaft naar de buurman.", pv: "blaft", ow: "De grote hond", nw: "hond", bn: "grote", lw: "De"},
-                    {z: "Morgen geeft de juf een prachtig cadeau aan Thomas.", pv: "geeft", ow: "de juf", lv: "een prachtig cadeau", mw: "aan Thomas"},
-                    {z: "Wij hebben gisteren een spannende film gekeken.", pv: "hebben", ow: "Wij", lv: "een spannende film"},
-                    {z: "De kat slaapt heerlijk op de zachte bank.", pv: "slaapt", ow: "De kat", vz: "op"}
-                ];
-                let zin = zinnen[Math.floor(Math.random() * zinnen.length)];
-                let types = ["pv", "ow", "lv"];
-                let gekozenType = types[Math.floor(Math.random() * types.length)];
-                
-                let vraag = "";
-                let correct = "";
-                if(gekozenType === "pv") { vraag = `Wat is de **persoonsvorm** in de zin: "${zin.z}"?`; correct = zin.pv; }
-                else if(gekozenType === "ow") { vraag = `Wat is het **onderwerp** in de zin: "${zin.z}"?`; correct = zin.ow; }
-                else { vraag = `Wat is het **lijdend voorwerp** in de zin: "${zin.z}"?`; correct = zin.lv || zin.pv; }
-
-                return { vraag: vraag, correct: correct, type: "invullen" };
-            },
-            getSpelling: function(lvl) {
-                const items = [
-                    {v: "Vul de juiste letter in: me...e (d of t)", c: "t", u: "Mette is afgeleid van meten, stam+t."},
-                    {v: "Kies het juiste woord: (ei of ij) Het is een grote ...land.", c: "ei", u: "Eiland schrijf je met een korte ei."},
-                    {v: "Wat is de juiste spelling van het Franse leenwoord?", o: ["bureau", "buro", "beuro"], c: "bureau", u: "Bureau behoudt de Franse schrijfwijze -eau."},
-                    {v: "Vul in: De auto'... staan op de parkeerplaats.", c: "s", u: "Meervoud van woorden op o krijgt een apostrof-s."}
-                ];
-                let base = items[Math.floor(Math.random() * items.length)];
-                return base;
-            },
-            getWoordenschat: function(lvl) {
-                const items = [
-                    {v: "Wat is het synoniem van 'immens'?", o: ["piepklein", "reusachtig", "mooi", "snel"], c: "reusachtig"},
-                    {v: "Wat is de tegenstelling van 'veilig'?", o: ["gevaarlijk", "beschermd", "rustig", "saai"], c: "gevaarlijk"},
-                    {v: "Welk spreekwoord betekent: 'Ergens heel op tijd bij zijn'?", o: ["De vroege vogel vangt de worm", "Achter het net vissen", "De kat uit de boom kijken"], c: "De vroege vogel vangt de worm"}
-                ];
-                return items[Math.floor(Math.random() * items.length)];
-            },
-            getLezen: function(lvl) {
-                const teksten = [
-                    {
-                        t: "De zeeschildpad legt haar eieren op het strand waar ze zelf geboren is. Ze graaft een diepe kuil in het zand. Na het leggen van wel honderd eieren, dekt ze het nest goed af en keert ze direct terug naar de oceaan. De zon broedt de eieren daarna warm uit.",
-                        v: "Wat is de hoofdgedachte van deze tekst?",
-                        o: ["Hoe een zeeschildpad haar eieren legt en achterlaat.", "Dat de oceaan erg koud is.", "Schildpadden houden van zand."],
-                        c: "Hoe een zeeschildpad haar eieren legt en achterlaat."
-                    },
-                    {
-                        t: "Nieuwe energievormen zoals windenergie en zonne-energie worden steeds belangrijker. Fossiele brandstoffen zoals kolen en gas raken namelijk op en zijn slecht voor ons klimaat. Door te kiezen voor groene stroom beschermen we de aarde.",
-                        v: "Waarom zijn zonne- en windenergie beter volgens de tekst?",
-                        o: ["Omdat ze goedkoper zijn.", "Omdat fossiele brandstoffen opraken en slecht zijn voor het klimaat.", "Omdat iedereen windmolens mooi vindt."],
-                        c: "Omdat fossiele brandstoffen opraken en slecht zijn voor het klimaat."
-                    }
-                ];
-                return teksten[Math.floor(Math.random() * teksten.length)];
-            },
-            getEngels: function() {
-                const items = [
-                    {v: "Hoe vertaal je: 'Ik heb een hond' naar het Engels?", o: ["I have a dog.", "I am a dog.", "I have a cat."], c: "I have a dog."},
-                    {v: "Wat betekent het Engelse woord 'Monday'?", o: ["Dinsdag", "Maandag", "Weekend"], c: "Maandag"},
-                    {v: "Kies de juiste kleur: 'The grass is ...'", o: ["red", "blue", "green"], c: "green"}
-                ];
-                return items[Math.floor(Math.random() * items.length)];
-            }
+        let currentSession = {
+            mode: '',
+            level: 'b6',
+            questions: [],
+            currentIndex: 0,
+            score: 0,
+            selectedAnswers: [] // Voor grammatica woordkliks
         };
 
-        // Positieve feedback kreten
-        const ApplausBerichten = ["Fantastisch!", "Je bent een echte taalheld!", "Super goed gedaan!", "Topsnelheid en topkwaliteit!", "Jij snapt dit helemaal!"];
+        // DOM Elements
+        const mainDashboard = document.getElementById("dashboard-view");
+        const workspaceView = document.getElementById("workspace-view");
+        const progressView = document.getElementById("progress-view");
+        const settingsView = document.getElementById("settings-view");
+        const dynamicContent = document.getElementById("dynamic-content");
+        const workspaceFeedback = document.getElementById("workspace-feedback");
+        const btnSubmit = document.getElementById("btn-submit-answer");
+        const btnNext = document.getElementById("btn-next-question");
+        const levelSelector = document.getElementById("level-selector");
 
         /**
-         * INITIALISATIE EN EVENT LISTENERS
+         * APPLICATION LOGIC & BOOTSTRAP
          */
         document.addEventListener("DOMContentLoaded", () => {
-            loadFromStorage();
-            setupNavigation();
-            setupSettings();
-            setupDictee();
-            setupExerciseEngine();
-            updateUIStats();
+            initStorage();
+            setupGlobalEvents();
+            syncUI();
         });
 
-        // Laad alle data veilig uit localStorage
-        function loadFromStorage() {
-            const stored = localStorage.getItem("taalhelden_state_2026");
-            if (stored) {
-                try {
-                    state = Object.assign(state, JSON.parse(stored));
-                } catch(e) { console.error("Fout bij laden storage", e); }
+        function initStorage() {
+            const saved = localStorage.getItem("taalapp_master_2026");
+            if (saved) {
+                try { appState = Object.assign(appState, JSON.parse(saved)); } catch(e) {}
             }
-            // Sync UI inputs met geladen instellingen
-            document.getElementById("setting-theme").value = state.settings.theme;
-            document.getElementById("setting-fontsize").value = state.settings.fontsize;
-            document.getElementById("setting-sound").value = state.settings.sound;
-            document.getElementById("setting-rate").value = state.settings.rate;
-            document.getElementById("global-level-select").value = state.currentLevel;
-            applyThemeSettings();
+            document.getElementById("theme-select").value = appState.settings.theme;
+            document.getElementById("speech-rate").value = appState.settings.rate;
+            applyTheme();
         }
 
-        // Sla direct de actuele state op
-        function saveToStorage() {
-            localStorage.setItem("taalhelden_state_2026", JSON.stringify(state));
+        function saveState() {
+            localStorage.setItem("taalapp_master_2026", JSON.stringify(appState));
+            syncUI();
         }
 
-        // Regel thematisering en font-sizes direct
-        function applyThemeSettings() {
-            document.documentElement.setAttribute("data-theme", state.settings.theme);
-            document.documentElement.style.setProperty('--font-size', state.settings.fontsize);
+        function applyTheme() {
+            document.documentElement.setAttribute("data-theme", appState.settings.theme);
+        }
+
+        function syncUI() {
+            document.getElementById("stat-points").innerText = appState.points;
+            appState.level = Math.floor(appState.points / 30) + 1;
+            document.getElementById("stat-level").innerText = appState.level;
             
-            // Verberg of toon Engels op basis van Groep 6 of 7
-            const engelsTile = document.getElementById("tile-engels");
-            if(state.currentLevel.includes('7')) {
+            let m = "🥉 Brons";
+            if(appState.points > 150) m = "🏆 Meester";
+            else if(appState.points > 90) m = "💎 Diamant";
+            else if(appState.points > 50) m = "🥇 Goud";
+            else if(appState.points > 20) m = "🥈 Zilver";
+            document.getElementById("stat-medal").innerText = m;
+            document.getElementById("stat-streak").innerText = appState.streak;
+
+            // Verberg Engels voor Groep 6
+            const engelsTile = document.getElementById("engels-tile");
+            if(levelSelector.value.includes("7")) {
                 engelsTile.style.display = "flex";
             } else {
                 engelsTile.style.display = "none";
             }
         }
 
-        // Navigatie logica tussen de views
-        function setupNavigation() {
+        function setupGlobalEvents() {
+            // Dashboard kliks naar modes
             document.querySelectorAll(".tile").forEach(tile => {
                 tile.addEventListener("click", () => {
-                    const target = tile.getAttribute("data-target");
-                    switchView(target);
-                    if(target === "progress-view") buildProgressDashboard();
-                    else if(["lezen-view", "spelling-view", "grammatica-view", "woordenschat-view", "engels-view"].includes(target)) {
-                        startExerciseSession(target.replace("-view", ""));
+                    const mode = tile.getAttribute("data-mode");
+                    if(mode === "progress") {
+                        showSection(progressView);
+                        renderHistory();
+                    } else if(mode === "settings") {
+                        showSection(settingsView);
+                    } else {
+                        startSession(mode, levelSelector.value);
                     }
                 });
             });
 
-            document.querySelectorAll(".back-btn").forEach(btn => {
+            // Back buttons
+            document.querySelectorAll(".entry-back-btn").forEach(btn => {
                 btn.addEventListener("click", () => {
-                    switchView("dashboard-view");
+                    window.speechSynthesis.cancel();
+                    showSection(mainDashboard);
                 });
             });
 
-            document.getElementById("global-level-select").addEventListener("change", (e) => {
-                state.currentLevel = e.target.value;
-                saveToStorage();
-                applyThemeSettings();
+            // Level selector verandering live afvangen
+            levelSelector.addEventListener("change", () => {
+                syncUI();
             });
+
+            // Settings events
+            document.getElementById("theme-select").addEventListener("change", (e) => {
+                appState.settings.theme = e.target.value;
+                applyTheme();
+                saveState();
+            });
+            document.getElementById("speech-rate").addEventListener("change", (e) => {
+                appState.settings.rate = parseFloat(e.target.value);
+                saveState();
+            });
+            document.getElementById("btn-hard-reset").addEventListener("click", () => {
+                if(confirm("Weet je zeker dat je je score wilt resetten?")) {
+                    appState.points = 0;
+                    appState.streak = 0;
+                    saveState();
+                }
+            });
+
+            // Evaluatie en navigatie binnen de oefeningen
+            btnSubmit.addEventListener("click", evaluateAnswer);
+            btnNext.addEventListener("click", goToNextQuestion);
         }
 
-        function switchView(viewId) {
-            document.querySelectorAll(".view-section").forEach(sec => sec.classList.remove("active"));
-            const activeSec = document.getElementById(viewId);
-            if(activeSec) activeSec.classList.add("active");
-            // Stop spraak bij wisselen pagina
-            window.speechSynthesis.cancel();
-        }
-
-        // Live statistieken updates bovenin de header
-        function updateUIStats() {
-            document.getElementById("header-points").innerText = state.points;
-            
-            // Level berekening: elke 50 punten een level omhoog
-            state.level = Math.floor(state.points / 50) + 1;
-            document.getElementById("header-level").innerText = state.level;
-
-            // Medailles toekennen
-            let medal = "🥉 Brons";
-            if(state.points >= 500) medal = "🏆 Meester";
-            else if(state.points >= 300) medal = "💎 Diamant";
-            else if(state.points >= 150) medal = "🥇 Goud";
-            else if(state.points >= 60) medal = "🥈 Zilver";
-            document.getElementById("header-medal").innerText = medal;
-
-            document.getElementById("header-streak").innerText = state.streak;
-            
-            let avg = state.totalTasks > 0 ? Math.round((state.totalCorrect / state.totalTasks) * 100) : 0;
-            document.getElementById("header-avg").innerText = avg;
-            document.getElementById("header-count").innerText = state.totalTasks;
+        function showSection(section) {
+            mainDashboard.style.display = "none";
+            workspaceView.style.display = "none";
+            progressView.style.display = "none";
+            settingsView.style.display = "none";
+            section.style.display = "flex";
         }
 
         /**
-         * INTERNE ADAPTIEVE ENGINE VOOR ARTIKELS & VRAGEN
+         * SESSION ENGINE (DE KERN VAN DE CORRECTIES)
          */
-        function startExerciseSession(section) {
-            currentSection = section;
-            exerciseStep = 0;
-            sessionCorrectCount = 0;
-            switchView("exercise-view");
-            nextExerciseStep();
-        }
+        function startSession(mode, level) {
+            let pool = Database[mode]?.[level] || [];
+            
+            // Fallback voor Engels in groep 6 (schaalt mee naar basis 7)
+            if(pool.length === 0 && mode === "engels") {
+                pool = Database["engels"]["b7"];
+            }
 
-        function nextExerciseStep() {
-            if(exerciseStep >= totalExerciseSteps) {
-                // Einde sessie, sla resultaat op
-                let precentage = Math.round((sessionCorrectCount / totalExerciseSteps) * 100);
-                state.totalTasks += totalExerciseSteps;
-                state.totalCorrect += sessionCorrectCount;
-                
-                // Voeg toe aan geschiedenis
-                state.history.unshift({
-                    date: new Date().toLocaleDateString('nl-NL'),
-                    section: currentSection.toUpperCase(),
-                    lvl: state.currentLevel.toUpperCase(),
-                    score: `${sessionCorrectCount}/${totalExerciseSteps}`
-                });
-                if(state.history.length > 200) state.history.pop();
-
-                // Bonuspunten berekening
-                state.points += sessionCorrectCount;
-                if(precentage === 100) {
-                    state.points += 5; // Perfectie bonus!
-                    triggerConfetti();
-                }
-
-                saveToStorage();
-                updateUIStats();
-
-                document.getElementById("exercise-workspace").innerHTML = `
-                    <div class="exercise-box">
-                        <h3>🎉 Geweldig gedaan!</h3>
-                        <p>Je hebt deze oefenserie afgerond.</p>
-                        <h2 style="color:var(--secondary-color); margin: 15px 0;">${precentage}% Score</h2>
-                        <p>Je verdiende hiermee <strong>+${sessionCorrectCount}</strong> punten!</p>
-                    </div>
-                `;
-                document.getElementById("exercise-submit-btn").style.display = "none";
-                document.getElementById("exercise-next-btn").style.display = "none";
+            if(pool.length === 0) {
+                alert("Er zijn voor dit specifieke niveau momenteel geen vragen geladen.");
                 return;
             }
 
-            // Update voortgangsbalk
-            document.getElementById("exercise-progress").style.width = `${(exerciseStep / totalExerciseSteps) * 100}%`;
+            currentSession.mode = mode;
+            currentSession.level = level;
+            // Kopieer en schud de vragenpool om herhalingen te voorkomen
+            currentSession.questions = [...pool].sort(() => 0.5 - Math.random());
+            currentSession.currentIndex = 0;
+            currentSession.score = 0;
 
-            document.getElementById("exercise-submit-btn").style.display = "inline-flex";
-            document.getElementById("exercise-next-btn").style.display = "none";
-            const fb = document.getElementById("exercise-feedback");
-            fb.style.display = "none";
-            fb.className = "feedback";
-
-            // Genereer specifieke vraag
-            let ex = null;
-            if(currentSection === "lezen") ex = Generator.getLezen(state.currentLevel);
-            else if(currentSection === "spelling") ex = Generator.getSpelling(state.currentLevel);
-            else if(currentSection === "grammatica") ex = Generator.getGrammatica(state.currentLevel);
-            else if(currentSection === "woordenschat") ex = Generator.getWoordenschat(state.currentLevel);
-            else if(currentSection === "engels") ex = Generator.getEngels();
-
-            currentActiveExercise = ex;
-            buildExerciseUI(ex);
+            document.getElementById("workspace-title").innerText = mode.toUpperCase();
+            showSection(workspaceView);
+            loadQuestion();
         }
 
-        function buildExerciseUI(ex) {
-            const ws = document.getElementById("exercise-workspace");
-            ws.innerHTML = "";
+        function loadQuestion() {
+            workspaceFeedback.style.display = "none";
+            btnSubmit.style.display = "inline-flex";
+            btnNext.style.display = "none";
+            currentSession.selectedAnswers = [];
 
-            document.getElementById("exercise-title").innerText = currentSection.toUpperCase();
+            const total = currentSession.questions.length;
+            const current = currentSession.currentIndex;
+            document.getElementById("workspace-progress").style.width = `${(current / total) * 100}%`;
 
-            // Als het een leestekst betreft, toon de tekstbox eerst
-            if(ex.t) {
-                const textContainer = document.createElement("div");
-                textContainer.className = "exercise-box";
-                textContainer.style.textAlign = "left";
-                textContainer.style.maxHeight = "200px";
-                textContainer.style.overflowY = "auto";
-                textContainer.style.marginBottom = "15px";
-                textContainer.innerHTML = `<strong>Lees de tekst:</strong><br>${ex.t}`;
-                ws.appendChild(textContainer);
+            if(current >= total) {
+                finishSession();
+                return;
             }
 
-            const questionBox = document.createElement("div");
-            questionBox.className = "exercise-box";
-            questionBox.innerHTML = `<p>${ex.v || ex.vraag}</p>`;
-            ws.appendChild(questionBox);
+            const qData = currentSession.questions[current];
+            dynamicContent.innerHTML = "";
 
-            // Keuzerondjes of invulveld op basis van data-architectuur
-            if(ex.o) {
-                const grid = document.createElement("div");
-                grid.className = "options-grid";
-                ex.o.forEach(opt => {
-                    const btn = document.createElement("button");
-                    btn.className = "option-btn";
-                    btn.innerText = opt;
-                    btn.addEventListener("click", () => {
-                        grid.querySelectorAll(".option-btn").forEach(b => b.style.borderColor = "var(--primary-color)");
-                        btn.style.borderColor = "var(--warning-color)";
-                        btn.setAttribute("data-selected", "true");
-                        grid.setAttribute("data-answer", opt);
-                    });
-                    grid.appendChild(btn);
-                });
-                ws.appendChild(grid);
-            } else {
-                const input = document.createElement("input");
-                input.type = "text";
-                input.className = "input-text";
-                input.id = "active-typed-answer";
-                input.placeholder = "Typ je antwoord zorgvuldig...";
-                ws.appendChild(input);
-            }
-        }
-
-        function setupExerciseEngine() {
-            document.getElementById("exercise-submit-btn").addEventListener("click", () => {
-                const fb = document.getElementById("exercise-feedback");
-                let userAns = "";
+            // Bouw UI op basis van de modus
+            if(currentSession.mode === "dictee") {
+                dynamicContent.innerHTML = `
+                    <div class="exercise-box" style="text-align:center;">
+                        <button id="btn-dictee-audio" class="btn btn-warning" style="margin-bottom:15px; font-size:1.2rem;">🔊 Luister naar het woord</button>
+                        <p>Typ het woord dat je hoort zorgvuldig over:</p>
+                        <input type="text" id="dictee-raw-input" class="input-text" autocomplete="off" placeholder="Jouw antwoord...">
+                    </div>
+                `;
                 
-                const grid = document.querySelector(".options-grid");
-                if(grid) {
-                    userAns = grid.getAttribute("data-answer") || "";
-                } else {
-                    const inp = document.getElementById("active-typed-answer");
-                    if(inp) userAns = inp.value.trim();
-                }
+                const playAudio = () => {
+                    window.speechSynthesis.cancel();
+                    let msg = new SpeechSynthesisUtterance(`Het woord is: ${qData.w}. Ik herhaal de zin: ${qData.z}`);
+                    msg.lang = "nl-NL";
+                    msg.rate = appState.settings.rate;
+                    window.speechSynthesis.speak(msg);
+                };
 
-                if(!userAns) {
-                    alert("Selecteer of typ eerst een antwoord!");
+                document.getElementById("btn-dictee-audio").addEventListener("click", playAudio);
+                // Direct automatisch uitspreken bij openen
+                playAudio();
+
+            } else if(currentSession.mode === "grammatica") {
+                // Grammatica & Zinsontleding via duidelijke interactieve woordbubbels
+                let woorden = qData.z.split(" ");
+                let bubblesHtml = woorden.map((w, idx) => `<button class="word-bubble" data-idx="${idx}">${w}</button>`).join("");
+                
+                dynamicContent.innerHTML = `
+                    <div class="exercise-box">
+                        <p style="margin-bottom:15px; font-weight:bold;">${qData.q}</p>
+                        <div class="word-bubble-container">${bubblesHtml}</div>
+                    </div>
+                `;
+
+                document.querySelectorAll(".word-bubble").forEach(bubble => {
+                    bubble.addEventListener("click", () => {
+                        let idx = bubble.getAttribute("data-idx");
+                        if(qData.multi) {
+                            bubble.classList.toggle("selected");
+                            if(bubble.classList.contains("selected")) {
+                                currentSession.selectedAnswers.push(woorden[idx]);
+                            } else {
+                                currentSession.selectedAnswers = currentSession.selectedAnswers.filter(w => w !== woorden[idx]);
+                            }
+                        } else {
+                            document.querySelectorAll(".word-bubble").forEach(b => b.classList.remove("selected"));
+                            bubble.classList.add("selected");
+                            currentSession.selectedAnswers = [woorden[idx]];
+                        }
+                    });
+                });
+
+            } else {
+                // Begrijpend lezen, spelling, woordenschat en engels gebruiken de meerkeuzematrix
+                let textContainer = qData.t ? `<div class="exercise-box" style="margin-bottom:15px; text-align:left; background:#fff; border-left:5px solid var(--primary-color);">${qData.t}</div>` : '';
+                
+                let optHtml = qData.o.map(o => `<button class="option-btn">${o}</button>`).join("");
+
+                dynamicContent.innerHTML = `
+                    ${textContainer}
+                    <div class="exercise-box">
+                        <p style="margin-bottom:15px; font-weight:bold;">${qData.q}</p>
+                        <div class="options-grid">${optHtml}</div>
+                    </div>
+                `;
+
+                document.querySelectorAll(".option-grid, .option-btn").forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        document.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
+                        btn.classList.add("selected");
+                        currentSession.selectedAnswers = [btn.innerText];
+                    });
+                });
+            }
+        }
+
+        function evaluateAnswer() {
+            const qData = currentSession.questions[currentSession.currentIndex];
+            let isCorrect = false;
+            let correctStr = "";
+
+            if(currentSession.mode === "dictee") {
+                let userVal = document.getElementById("dictee-raw-input").value.trim().toLowerCase();
+                correctStr = qData.w;
+                isCorrect = (userVal === qData.w.toLowerCase());
+            } else if(currentSession.mode === "grammatica") {
+                // Schoon de leestekens op voor vergelijking
+                let cleanedAns = currentSession.selectedAnswers.map(w => w.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")).join(" ").toLowerCase();
+                let cleanTarget = "";
+                
+                if(qData.type === "pv") cleanTarget = qData.pv;
+                if(qData.type === "ow") cleanTarget = qData.ow;
+                if(qData.type === "lv") cleanTarget = qData.lv;
+                if(qData.type === "mw") cleanTarget = qData.mw;
+                if(qData.type === "wg") cleanTarget = qData.wg;
+                if(qData.type === "ng") cleanTarget = qData.ng;
+                if(qData.type === "bn") cleanTarget = qData.bn;
+
+                correctStr = cleanTarget;
+                isCorrect = (cleanedAns.trim() === cleanTarget.toLowerCase().trim());
+            } else {
+                if(currentSession.selectedAnswers.length === 0) {
+                    alert("Kies eerst een antwoord!");
                     return;
                 }
-
-                let isCorrect = userAns.toLowerCase() === currentActiveExercise.c.toLowerCase();
-                fb.style.display = "block";
-
-                if(isCorrect) {
-                    fb.innerText = ApplausBerichten[Math.floor(Math.random() * ApplausBerichten.length)];
-                    fb.className = "feedback btn-secondary";
-                    sessionCorrectCount++;
-                    if(state.settings.sound === "on") playTone(600, 0.2);
-                } else {
-                    fb.innerText = `Helaas! Het juiste antwoord was: ${currentActiveExercise.c}. ${currentActiveExercise.u || ''}`;
-                    fb.className = "feedback btn-danger";
-                    if(state.settings.sound === "on") playTone(300, 0.3);
-                }
-
-                document.getElementById("exercise-submit-btn").style.display = "none";
-                document.getElementById("exercise-next-btn").style.display = "inline-flex";
-                exerciseStep++;
-            });
-
-            document.getElementById("exercise-next-btn").addEventListener("click", () => {
-                nextExerciseStep();
-            });
-        }
-
-        /**
-         * SPEECH API & DICTEE ENGINE
-         */
-        let currentDicteeItem = null;
-        function setupDictee() {
-            const playBtn = document.getElementById("dictee-play");
-            const repeatBtn = document.getElementById("dictee-repeat");
-            const slowBtn = document.getElementById("dictee-slow");
-            const submitBtn = document.getElementById("dictee-submit");
-            const input = document.getElementById("dictee-input");
-            const fb = document.getElementById("dictee-feedback");
-
-            function spreekUit(langzaam = false) {
-                if(!currentDicteeItem) {
-                    currentDicteeItem = Generator.getDictee(state.currentLevel);
-                }
-                window.speechSynthesis.cancel();
-                // Spreek eerst het woord, daarna de betekenisvolle contextzin
-                let msg = new SpeechSynthesisUtterance(`${currentDicteeItem.w}. ... Ik herhaal de zin: ${currentDicteeItem.z}`);
-                msg.lang = "nl-NL";
-                msg.rate = langzaam ? 0.5 : parseFloat(state.settings.rate);
-                window.speechSynthesis.speak(msg);
+                correctStr = qData.c;
+                isCorrect = (currentSession.selectedAnswers[0] === qData.c);
             }
 
-            playBtn.addEventListener("click", () => {
-                currentDicteeItem = Generator.getDictee(state.currentLevel);
-                input.value = "";
-                fb.style.display = "none";
-                spreekUit(false);
-            });
-
-            repeatBtn.addEventListener("click", () => spreekUit(false));
-            slowBtn.addEventListener("click", () => spreekUit(true));
-
-            submitBtn.addEventListener("click", () => {
-                if(!currentDicteeItem) return;
-                let ans = input.value.trim().toLowerCase();
-                fb.style.display = "block";
-                
-                state.totalTasks++;
-                if(ans === currentDicteeItem.w.toLowerCase()) {
-                    fb.innerText = "Helemaal correct gespeld! Superheld!";
-                    fb.className = "feedback btn-secondary";
-                    state.points += 2;
-                    state.totalCorrect++;
-                    triggerConfetti();
-                } else {
-                    fb.innerText = `Foutje. Je schreef "${input.value}". De juiste spelling is: ${currentDicteeItem.w}.`;
-                    fb.className = "feedback btn-danger";
-                }
-                currentDicteeItem = null; // Reset voor de volgende ronde
-                saveToStorage();
-                updateUIStats();
-            });
-        }
-
-        /**
-         * TAALSPELLETJES COMPONENTEN
-         */
-        const gameLaunchButtons = document.querySelectorAll(".game-launch-btn");
-        gameLaunchButtons.forEach(btn => {
-            btn.addEventListener("click", () => {
-                const gameType = btn.getAttribute("data-game");
-                launchGame(gameType);
-            });
-        });
-
-        function launchGame(type) {
-            const container = document.getElementById("game-container");
-            container.style.display = "block";
-            container.innerHTML = "";
-
-            let woorden = ["taalheld", "onderwijs", "spelling", "lezen", "grammatica", "computer", "school"];
-            let woord = woorden[Math.floor(Math.random() * woorden.length)];
-
-            if(type === "lettermix") {
-                let husseld = woord.split('').sort(() => 0.5 - Math.random()).join('');
-                container.innerHTML = `
-                    <h3>🔀 Ontwar het Lettermix Woord!</h3>
-                    <h2 style="letter-spacing:5px; margin:15px 0; color:var(--primary-color);">${husseld}</h2>
-                    <input type="text" id="game-mix-input" class="input-text" placeholder="Welk woord zoeken we?">
-                    <button id="game-mix-check" class="btn btn-primary">Controleer</button>
-                `;
-                document.getElementById("game-mix-check").addEventListener("click", () => {
-                    let ans = document.getElementById("game-mix-input").value.trim().toLowerCase();
-                    if(ans === woord) {
-                        alert("Geweldig! +2 Punten!");
-                        state.points += 2;
-                        launchGame("lettermix");
-                    } else {
-                        alert("Helaas, probeer het nog eens!");
-                    }
-                    updateUIStats();
-                    saveToStorage();
-                });
-            } else if(type === "rijm") {
-                container.innerHTML = `
-                    <h3>🎵 Rijmspel</h3>
-                    <p>Welk woord rijmt er perfect op: <strong>KAASE</strong>?</p>
-                    <div class="options-grid">
-                        <button class="option-btn rijm-opt">Blaze</button>
-                        <button class="option-btn rijm-opt">Tas</button>
-                        <button class="option-btn rijm-opt">Vaas</button>
-                    </div>
-                `;
-                container.querySelectorAll(".rijm-opt").forEach(b => {
-                    b.addEventListener("click", () => {
-                        if(b.innerText === "Vaas") {
-                            alert("Klasse! Rijmen kun je als de beste! +2 pt");
-                            state.points += 2;
-                        } else {
-                            alert("Net niet helemaal!");
-                        }
-                        launchGame("rijm");
-                        updateUIStats();
-                        saveToStorage();
-                    });
-                });
+            workspaceFeedback.style.display = "block";
+            if(isCorrect) {
+                workspaceFeedback.innerText = "🎯 Fantastisch! Je bent een echte taalheld!";
+                workspaceFeedback.style.background = "var(--secondary-color)";
+                workspaceFeedback.style.color = "white";
+                currentSession.score++;
+                appState.points += 2;
             } else {
-                // Generieke fallback voor Galgje / overige snelle interacties
-                container.innerHTML = `<h3>🎯 Galgje</h3><p>Raad het woord met zo min mogelijk fouten: <code>_ a a _ _ e _ _</code></p><br><p>Raad letters via het dictee of spellingdashboard om je score te verhogen!</p>`;
-            }
-        }
-
-        /**
-         * STATISTIEKEN & HISTORIE RENDERING
-         */
-        function buildProgressDashboard() {
-            const tbody = document.getElementById("history-tbody");
-            tbody.innerHTML = "";
-            
-            if(state.history.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Nog geen geschiedenis opgebouwd. Begin snel met oefenen!</td></tr>`;
+                workspaceFeedback.innerText = `💡 Oeps! Het juiste antwoord moest zijn: "${correctStr}". \n Uitleg: ${qData.u || 'Goed onthouden voor de volgende keer!'}`;
+                workspaceFeedback.style.background = "var(--accent-color)";
+                workspaceFeedback.style.color = "white";
             }
 
-            state.history.forEach(h => {
-                let tr = document.createElement("tr");
-                tr.innerHTML = `<td>${h.date}</td><td>${h.section}</td><td>${h.lvl}</td><td>${h.score}</td>`;
-                tbody.appendChild(tr);
-            });
-
-            // Dynamische balken bouwen voor de categorieën
-            const barContainer = document.getElementById("category-progress-bars");
-            barContainer.innerHTML = "<h3>Vaardigheidsniveau per onderdeel:</h3>";
-            let onderdelen = ["lezen", "spelling", "grammatica", "woordenschat"];
-            
-            onderdelen.forEach(o => {
-                let ranPercent = Math.floor(Math.random() * 30) + 70; // Realistische gesimuleerde adaptieve data
-                barContainer.innerHTML += `
-                    <div style="margin: 10px 0;">
-                        <div style="display:flex; justify-content:between;"><strong>${o.toUpperCase()}</strong> <span>${ranPercent}%</span></div>
-                        <div class="progress-bar-outer"><div class="progress-bar-inner" style="width:${ranPercent}%;"></div></div>
-                    </div>
-                `;
-            });
+            btnSubmit.style.display = "none";
+            btnNext.style.display = "inline-flex";
+            saveState();
         }
 
-        /**
-         * INSTELLINGEN EN VEILIGE ARCHITECTUUR RESETS
-         */
-        function setupSettings() {
-            document.getElementById("setting-theme").addEventListener("change", (e) => {
-                state.settings.theme = e.target.value;
-                saveToStorage();
-                applyThemeSettings();
-            });
-
-            document.getElementById("setting-fontsize").addEventListener("change", (e) => {
-                state.settings.fontsize = e.target.value;
-                saveToStorage();
-                applyThemeSettings();
-            });
-
-            document.getElementById("setting-sound").addEventListener("change", (e) => {
-                state.settings.sound = e.target.value;
-                saveToStorage();
-            });
-
-            document.getElementById("setting-rate").addEventListener("change", (e) => {
-                state.settings.rate = e.target.value;
-                saveToStorage();
-            });
-
-            document.getElementById("btn-reset-stats").addEventListener("click", () => {
-                if(confirm("Weet je zeker dat je jouw punten, levels en streaks wilt resetten? Je geschiedenis en instellingen blijven bewaard!")) {
-                    state.points = 0;
-                    state.level = 1;
-                    state.streak = 0;
-                    state.totalTasks = 0;
-                    state.totalCorrect = 0;
-                    saveToStorage();
-                    updateUIStats();
-                    alert("Punten succesvol gereset!");
-                }
-            });
+        function goToNextQuestion() {
+            currentSession.currentIndex++;
+            loadQuestion();
         }
 
-        /**
-         * AUDIO UTILITIES & EFFECTS (VOLLEDIG OFFLINE WEB AUDIO API)
-         */
-        function playTone(freq, duration) {
-            try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = "sine";
-                osc.frequency.value = freq;
-                gain.gain.setValueAtTime(0.1, ctx.currentTime);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start();
-                osc.stop(ctx.currentTime + duration);
-            } catch(e) { console.log("Audio not supported yet."); }
+        function finishSession() {
+            appState.streak += 1;
+            appState.history.unshift({
+                date: new Date().toLocaleDateString('nl-NL'),
+                mode: currentSession.mode.toUpperCase(),
+                level: currentSession.level.toUpperCase(),
+                score: `${currentSession.score}/${currentSession.questions.length}`
+            });
+
+            if(appState.history.length > 200) appState.history.pop();
+            saveState();
+
+            dynamicContent.innerHTML = `
+                <div class="exercise-box" style="text-align:center; padding:40px 20px;">
+                    <h2>🎉 Sessie Afgerond!</h2>
+                    <p style="font-size:1.4rem; margin:15px 0;">Je score: <strong>${currentSession.score}</strong> goed van de ${currentSession.questions.length}</p>
+                    <p>Je hebt extra punten verdiend! Ga zo door.</p>
+                    <button class="btn btn-secondary" onclick="showSection(mainDashboard)" style="margin-top:20px;">Terug naar het Dashboard</button>
+                </div>
+            `;
+            btnSubmit.style.display = "none";
+            btnNext.style.display = "none";
         }
 
-        /**
-         * CONFETTI CELEBRATION ENGINE
-         */
-        function triggerConfetti() {
-            const canvas = document.getElementById("confetti-canvas");
-            const ctx = canvas.getContext("2d");
-            canvas.style.display = "block";
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            let particles = [];
-            for (let i = 0; i < 70; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height - canvas.height,
-                    r: Math.random() * 6 + 4,
-                    d: Math.random() * canvas.height,
-                    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
-                    tilt: Math.random() * 10 - 5
-                });
+        function renderHistory() {
+            const container = document.getElementById("history-rows");
+            container.innerHTML = "";
+            if(appState.history.length === 0) {
+                container.innerHTML = `<tr><td colspan="4">Nog geen oefensessies geregistreerd.</td></tr>`;
+                return;
             }
-
-            let start = Date.now();
-            function draw() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particles.forEach((p, index) => {
-                    p.y += Math.random() * 3 + 2;
-                    p.tilt += 0.1;
-                    ctx.beginPath();
-                    ctx.lineWidth = p.r;
-                    ctx.strokeStyle = p.color;
-                    ctx.moveTo(p.x + p.tilt + p.r/2, p.y);
-                    ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r/2);
-                    ctx.stroke();
-                });
-
-                if (Date.now() - start < 2000) {
-                    requestAnimationFrame(draw);
-                } else {
-                    canvas.style.display = "none";
-                }
-            }
-            draw();
+            appState.history.forEach(h => {
+                container.innerHTML += `<tr><td>${h.date}</td><td>${h.mode}</td><td>${h.level}</td><td>${h.score}</td></tr>`;
+            });
         }
     </script>
 </body>
