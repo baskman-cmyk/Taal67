@@ -3,781 +3,363 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taalhelden Master - Groep 6 & 7</title>
+    <title>Taal App - Groep 7 Woordenschat</title>
     <style>
-        :root {
-            --bg-color: #f4f7f6;
-            --card-bg: #ffffff;
-            --text-color: #2c3e50;
-            --primary-color: #4a90e2;
-            --secondary-color: #2ecc71;
-            --accent-color: #e74c3c;
-            --warning-color: #f1c40f;
-            --border-radius: 16px;
-            --font-size: 16px;
-        }
-
-        [data-theme="dark"] {
-            --bg-color: #1a252f;
-            --card-bg: #2c3e50;
-            --text-color: #ecf0f1;
-            --primary-color: #3498db;
-            --secondary-color: #27ae60;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Nunito', 'Segoe UI', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-size: var(--font-size);
-            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
             display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
             min-height: 100vh;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1000px;
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 3px solid var(--bg-color);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .user-stats { display: flex; gap: 10px; flex-wrap: wrap; }
-        .stat-pill {
-            background: var(--bg-color);
-            padding: 8px 14px;
-            border-radius: 30px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .level-select {
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 2px solid var(--primary-color);
-            font-weight: bold;
-            background: var(--card-bg);
-            color: var(--text-color);
-            cursor: pointer;
-        }
-
-        .main-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .tile {
-            background: var(--bg-color);
-            border: 3px solid transparent;
-            border-radius: var(--border-radius);
-            padding: 25px 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .tile:hover {
-            transform: translateY(-3px);
-            border-color: var(--primary-color);
-            background: var(--card-bg);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
-        }
-
-        .tile-icon { font-size: 3rem; }
-        .tile-title { font-size: 1.1rem; font-weight: bold; }
-
-        .view-section { display: none; flex-direction: column; }
-        .view-section.active { display: flex; }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-primary { background: var(--primary-color); color: white; }
-        .btn-secondary { background: var(--secondary-color); color: white; }
-        .btn-danger { background: var(--accent-color); color: white; }
-        .btn-warning { background: var(--warning-color); color: #2c3e50; }
-
-        .exercise-box {
-            background: var(--bg-color);
+            margin: 0;
             padding: 20px;
-            border-radius: var(--border-radius);
-            margin-bottom: 20px;
-            font-size: 1.15rem;
-            line-height: 1.6;
         }
-
-        .word-bubble-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin: 20px 0;
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
         }
-
-        .word-bubble {
-            padding: 10px 16px;
-            background: var(--card-bg);
-            border: 2px solid #bdc3c7;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.1s ease;
-        }
-
-        .word-bubble.selected {
-            background: var(--warning-color);
-            border-color: #f39c12;
+        h1 {
             color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 24px;
         }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin: 15px 0;
+        .meta {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            font-weight: 600;
         }
-
-        .option-btn {
-            background: var(--card-bg);
-            border: 2px solid var(--primary-color);
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 1.05rem;
+        .word-box {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #2980b9;
+            margin-bottom: 20px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .meaning-box {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            min-height: 60px;
+            line-height: 1.5;
+        }
+        button {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
-            color: var(--text-color);
-            text-align: left;
+            transition: background-color 0.2s;
         }
-
-        .option-btn.selected {
-            background: var(--primary-color);
-            color: white;
+        button:hover {
+            background-color: #27ae60;
         }
-
-        .input-text {
-            width: 100%;
-            padding: 12px;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            border: 2px solid var(--primary-color);
-            margin: 15px 0;
-            outline: none;
-        }
-
-        .feedback-zone {
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            font-weight: bold;
-            display: none;
-        }
-
-        .progress-bar {
-            height: 12px;
-            background: #e0e0e0;
-            border-radius: 6px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--secondary-color);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .history-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        .history-table th, .history-table td {
-            border: 1px solid #bdc3c7;
-            padding: 10px;
-            text-align: left;
-        }
-        .history-table th { background: var(--bg-color); }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <div class="user-stats">
-                <div class="stat-pill">✨ <span id="stat-points">0</span> pt</div>
-                <div class="stat-pill">🚀 Lvl <span id="stat-level">1</span></div>
-                <div class="stat-pill"><span id="stat-medal">🥉 Brons</span></div>
-                <div class="stat-pill">🔥 <span id="stat-streak">0</span> dagen</div>
-            </div>
-            <select id="level-selector" class="level-select">
-                <option value="b6">Begin Groep 6</option>
-                <option value="m6">Midden Groep 6</option>
-                <option value="b7">Begin Groep 7</option>
-                <option value="m7">Midden Groep 7</option>
-            </select>
-        </header>
+<div class="container">
+    <h1>Woordenschat Trainer</h1>
+    <div id="meta-info" class="meta">Laden...</div>
+    
+    <div id="word-display" class="word-box">-</div>
+    <div id="meaning-display" class="meaning-box">Klik op de knop om te starten!</div>
+    
+    <button id="next-btn" onclick="toonNieuwWoord()">Volgend Woord</button>
+</div>
 
-        <!-- MAIN DASHBOARD -->
-        <div id="dashboard-view" class="view-section active">
-            <div class="main-grid">
-                <div class="tile" data-mode="lezen"><div class="tile-icon">📖</div><div class="tile-title">Begrijpend Lezen</div></div>
-                <div class="tile" data-mode="spelling"><div class="tile-icon">✏️</div><div class="tile-title">Spelling</div></div>
-                <div class="tile" data-mode="dictee"><div class="tile-icon">🎤</div><div class="tile-title">Dictee</div></div>
-                <div class="tile" data-mode="grammatica"><div class="tile-icon">📝</div><div class="tile-title">Grammatica</div></div>
-                <div class="tile" data-mode="woordenschat"><div class="tile-icon">📚</div><div class="tile-title">Woordenschat</div></div>
-                <div class="tile" data-mode="engels" id="engels-tile"><div class="tile-icon">🇬🇧</div><div class="tile-title">Engels (Gr. 7)</div></div>
-                <div class="tile" data-mode="progress"><div class="tile-icon">📈</div><div class="tile-title">Voortgang</div></div>
-                <div class="tile" data-mode="settings"><div class="tile-icon">⚙️</div><div class="tile-title">Instellingen</div></div>
-            </div>
-        </div>
+<script>
+// De database met alle basiswoorden per thema en les
+const woordenData = {
+  "Strips": {
+    "les_1": [
+      { "woord": "accentueren", "betekenis": "Benadrukken, beter laten uitkomen." },
+      { "woord": "de animatie", "betekenis": "Een soort tekenfilm. Beelden die op elkaar lijken, snel achter elkaar laten zien, zodat het lijkt alsof het bewegende beelden zijn." },
+      { "woord": "de cartoon", "betekenis": "Een getekende mop." },
+      { "woord": "de context", "betekenis": "De omgeving waarin iets zich afspeelt, de omstandigheden." },
+      { "woord": "creëren", "betekenis": "Scheppen, iets maken of bedenken." },
+      { "woord": "cursief", "betekenis": "Schuingedrukt." },
+      { "woord": "de dialoog", "betekenis": "Een gesprek tussen twee mensen." },
+      { "woord": "gedetailleerd", "betekenis": "Met de kleinste bijzonderheden erbij." },
+      { "woord": "de gezichtsuitdrukking", "betekenis": "De manier waarop je kijkt. Het gevoel dat je zonder woorden met je gezicht laat zien." },
+      { "woord": "grafisch", "betekenis": "Als het met tekenen te maken heeft." },
+      { "woord": "de identiteit", "betekenis": "De persoonlijkheid. Dat wat je onderscheidt van others." },
+      { "woord": "illustreren", "betekenis": "Tekenen. Versieren of toelichten met plaatjes." },
+      { "woord": "het lettertype", "betekenis": "De lettersoort. De manier waarop de letter getekend of gedrukt is." },
+      { "woord": "samenhangen", "betekenis": "Met elkaar te maken hebben." },
+      { "woord": "de stijl", "betekenis": "De manier waarop je iets doet." },
+      { "woord": "de strekking", "betekenis": "Dat wat je met iets bedoelt. Het idee dat je de ander wilt duidelijk maken." },
+      { "woord": "symboliseren", "betekenis": "Voorstellen. Een hartje symboliseert verliefdheid." },
+      { "woord": "treffend", "betekenis": "Opvallend en raak." },
+      { "woord": "verfijnen", "betekenis": "Uitwerken. De precieze details aanbrengen." },
+      { "woord": "weergeven", "betekenis": "Laten horen of laten zien." }
+    ],
+    "les_5": [
+      { "woord": "de aanleiding", "betekenis": "De reden, de oorzaak. Datgene wat iets tot gevolg heeft." },
+      { "woord": "het assortiment", "betekenis": "Alle verschillende soorten artikelen die in een winkel te koop zijn." },
+      { "woord": "beseffen", "betekenis": "Inzien. In de gaten hebben. Je er bewust van zijn." },
+      { "woord": "combineren", "betekenis": "Samenvoegen, koppelen. Met elkaar in verband brengen." },
+      { "woord": "complex", "betekenis": "Ingewikkeld." },
+      { "woord": "de editie", "betekenis": "De uitgave. De manier waarop het boek is uitgegeven." },
+      { "woord": "educatief", "betekenis": "Leerzaam, bedoeld om van te leren." },
+      { "woord": "geestig", "betekenis": "Grappig." },
+      { "woord": "op de hak nemen", "betekenis": "Voor de gek houden. Een grapje uithalen waardoor je iemand over iets laat nadenken." },
+      { "woord": "de herdruk", "betekenis": "Een nieuwe druk van een boek dat al eerder is uitgegeven." },
+      { "woord": "interpreteren", "betekenis": "Uitleg geven of verklaren hoe je iets opvat." },
+      { "woord": "kwetsen", "betekenis": "Beledigen. Iemands gevoelens pijnlijk treffen." },
+      { "woord": "de reputatie", "betekenis": "De goede of slechte naam waaronder iets of iemand bekend is." },
+      { "woord": "signeren", "betekenis": "Je handtekening zetten." },
+      { "woord": "specifiek", "betekenis": "In het bijzonder, speciaal." },
+      { "woord": "de spot drijven met", "betekenis": "Iemand of iets belachelijk maken. Bespotten." },
+      { "woord": "in trek zijn", "betekenis": "Populair zijn. Als veel mensen het willen hebben." },
+      { "woord": "verantwoord", "betekenis": "Veilig, zonder risico’s." },
+      { "woord": "verbeelden", "betekenis": "Laten zien, uitbeelden. Voorstellen." },
+      { "woord": "volwaardig", "betekenis": "Zonder gebreken. Als het alle kwaliteiten bezit." }
+    ]
+  },
+  "Licht": {
+    "les_1": [
+      { "woord": "aansluiten", "betekenis": "Iets verbinden met iets." },
+      { "woord": "dimmen", "betekenis": "Dempen, minder fel laten schijnen." },
+      { "woord": "de fitting", "betekenis": "Een houder waarin je een gloeilamp draait." },
+      { "woord": "flakkeren", "betekenis": "Onrustig branden (van een vlam)." },
+      { "woord": "fluorescerend", "betekenis": "Licht uitstralend dat eerder opgevangen is." },
+      { "woord": "infrarood", "betekenis": "Soort licht dat mensen niet kunnen zien, maar wel kunnen voelen als warmte." },
+      { "woord": "kunstmatig", "betekenis": "Door mensen gemaakt. Het tegengestelde van natuurlijk." },
+      { "woord": "de levensduur", "betekenis": "De tijd dat iets meegaat." },
+      { "woord": "de lichtbron", "betekenis": "Een voorwerp dat licht geeft." },
+      { "woord": "natuurlijk", "betekenis": "Alles wat met de natuur te maken heeft, niet door mensen gemaakt. Het tegengestelde van kunstmatig." },
+      { "woord": "het neonlicht", "betekenis": "Fel gekleurd licht uit glazen buizen dat vaak voor reclame wordt gebruikt." },
+      { "woord": "het principe", "betekenis": "De manier waarop iets werkt of in elkaar zit." },
+      { "woord": "de reflector", "betekenis": "Een voorwerp dat licht terugkaatst." },
+      { "woord": "het schijnsel", "betekenis": "Zacht licht of zwak licht." },
+      { "woord": "sfeervol", "betekenis": "Met veel sfeer. Als iets gezelligheid uitstraalt." },
+      { "woord": "sneuvelen", "betekenis": "Kapotgaan." },
+      { "woord": "ultraviolet", "betekenis": "De straling van de zon die je niet kunt zien, maar waar je wel bruin van wordt." },
+      { "woord": "verblinden", "betekenis": "Licht in iemands ogen schijnen, waardoor iemand even niets kan zien." },
+      { "woord": "het verschijnsel", "betekenis": "Iets wat zich voordoet, zoals volle maan of de bliksem." },
+      { "woord": "het weerlicht", "betekenis": "Het licht van de bliksem, zonder flits." }
+    ],
+    "les_5": [
+      { "woord": "absorberen", "betekenis": "Opzuigen, in zich opnemen." },
+      { "woord": "het baken", "betekenis": "Een herkenningsteken op het water of op het land waarmee schippers hun route bepalen." },
+      { "woord": "bundelen", "betekenis": "Samenvoegen. Er een bundel van maken." },
+      { "woord": "corrigeren", "betekenis": "Verbeteren." },
+      { "woord": "de eenheid", "betekenis": "Een maat om mee te meten of te tellen, bijvoorbeeld de euro (geld) of lumen (licht)." },
+      { "woord": "de energie", "betekenis": "Een kracht die omgezet kan worden in licht, warmte of beweging." },
+      { "woord": "energiezuinig", "betekenis": "Als iets weinig energie verbruikt, zoals een spaarlamp." },
+      { "woord": "gebroken licht", "betekenis": "Wit licht dat van richting verandert en uiteenvalt in verschillende kleuren." },
+      { "woord": "de glasvezelkabel", "betekenis": "Een kabel gemaakt van glasvezels waardoor digitale gegevens als lichtpakketjes worden verzonden." },
+      { "woord": "de laserstraal", "betekenis": "Een sterke straal van een bepaald soort gebundeld licht." },
+      { "woord": "de lens", "betekenis": "Een hol of bol voorwerp van glas dat dient om de lichtstralen van richting te laten veranderen." },
+      { "woord": "de lichtkrant", "betekenis": "Nieuws in lichtgevende woorden of zinnen aan de gevel van een gebouw. De zin wordt telkens opgebouwd en verdwijnt weer." },
+      { "woord": "het lichtsignaal", "betekenis": "Een sein dat je geeft met behulp van licht." },
+      { "woord": "de lumen", "betekenis": "Een maat waarmee je de lichtsterkte aangeeft." },
+      { "woord": "de pixel", "betekenis": "Een gekleurd puntje op een beeldscherm van een computer of een digitaal beeld." },
+      { "woord": "het prisma", "betekenis": "Een driehoekig geslepen stuk glas dat licht in meer kleuren verdeelt." },
+      { "woord": "seinen", "betekenis": "Communiceren met behulp van bijvoorbeeld licht of geluid." },
+      { "woord": "de variëteit", "betekenis": "Een heleboel verschillende, een verscheidenheid." },
+      { "woord": "weerkaatsen", "betekenis": "Licht of geluid terugkaatsen." },
+      { "woord": "het zonnepaneel", "betekenis": "Een rechthoekige plaat met zonnecellen die (zon)licht kan omzetten in stroom." }
+    ]
+  },
+  "Flits": {
+    "les_1": [
+      { "woord": "actueel", "betekenis": "Op dit moment belangrijk." },
+      { "woord": "bewerken", "betekenis": "Aan iets werken om het ergens geschikt voor te maken." },
+      { "woord": "de compositie", "betekenis": "Hoe de dingen die je op de foto ziet, verdeeld zijn." },
+      { "woord": "flets", "betekenis": "Vaal, dof." },
+      { "woord": "het fotobewerkingsprogramma", "betekenis": "Een computerprogramma waarmee je foto’s kunt veranderen." },
+      { "woord": "fotogeniek", "betekenis": "Gezegd van mensen die meestal mooi op foto’s staan." },
+      { "woord": "het kiekje", "betekenis": "Een foto die je snel neemt, als herinnering voor jezelf of voor vrienden of familie." },
+      { "woord": "de nieuwsfoto", "betekenis": "Een foto van een actuele gebeurtenis, meestal gemaakt door iemand die van beroep fotograaf is." },
+      { "woord": "de nieuwswaarde", "betekenis": "Belangrijk of interessant voor dit moment. Bijvoorbeeld een foto die iets nieuws laat zien." },
+      { "woord": "de persfotograaf", "betekenis": "Iemand die voor zijn beroep foto’s maakt van nieuwsonderwerpen, om deze te plaatsen in bijvoorbeeld kranten, tijdschriften of op internet." },
+      { "woord": "een plaatje schieten", "betekenis": "Een foto maken, meestal snel." },
+      { "woord": "poseren", "betekenis": "Model staan, een bepaalde lichaamshouding aannemen om gefotografeerd of geschilderd te worden." },
+      { "woord": "professioneel", "betekenis": "Door beroepsmensen gedaan." },
+      { "woord": "publiceren", "betekenis": "Openbaar maken van een tekst of foto, bijvoorbeeld in een krant, boek of op internet, zodat iedereen die kan zien." },
+      { "woord": "de redactie", "betekenis": "Een groep personen die de inhoud van een krant of een tijdschrift samenstelt." },
+      { "woord": "scherpstellen", "betekenis": "De lens zo draaien dat je het beeld haarscherp ziet." },
+      { "woord": "de selectie", "betekenis": "Een keuze. De personen of dingen die zijn uitgekozen." },
+      { "woord": "het standpunt", "betekenis": "De plek van waaruit je ergens tegenaan kijkt." },
+      { "woord": "het statief", "betekenis": "Een standaard met drie of vier uitschuifbare poten waarop een fototoestel of filmcamera kan staan." },
+      { "woord": "vastleggen", "betekenis": "Opnemen van een beeld op film of foto. Of opschrijven van een gesproken tekst." }
+    ],
+    "les_5": [
+      { "woord": "de BN’er", "betekenis": "Een bekende Nederlander." },
+      { "woord": "de close-up", "betekenis": "Een foto of filmopname die van heel dichtbij genomen is." },
+      { "woord": "het fatsoen", "betekenis": "De manier waarop je je hoort te gedragen. Met goede manieren." },
+      { "woord": "flatteus", "betekenis": "Waardoor je mooier lijkt." },
+      { "woord": "de fotomontage", "betekenis": "Een collage van foto’s. Je gebruikt foto’s of delen van foto’s om een nieuwe afbeelding te maken." },
+      { "woord": "de fotosessie", "betekenis": "Een korte bijeenkomst waarin een serie foto’s wordt gemaakt voor bijvoorbeeld een tijdschrift." },
+      { "woord": "fotoshoppen", "betekenis": "Het bewerken van een foto met behulp van een computerprogramma." },
+      { "woord": "manipuleren", "betekenis": "Bewerken, met opzet veranderen." },
+      { "woord": "de media", "betekenis": "Alle middelen waarmee informatie wordt verspreid, zoals kranten, tijdschriften, internet, radio en televisie." },
+      { "woord": "omstreden", "betekenis": "Betwist. Iets waarover lang niet iedereen het eens is." },
+      { "woord": "de paparazzi", "betekenis": "Opdringerige fotografen die bijvoorbeeld op straat beroemdheden proberen te fotograferen." },
+      { "woord": "de persvrijheid", "betekenis": "Het recht om te publiceren wat je wilt." },
+      { "woord": "het portretrecht", "betekenis": "Het recht om ervoor te zorgen dat een foto waar jij op staat, niet wordt gepubliceerd." },
+      { "woord": "de privacy", "betekenis": "De mogelijkheid om alleen te zijn zonder gestoord te worden en zonder dat anderen je kunnen bespieden." },
+      { "woord": "de publiciteit", "betekenis": "De openbaarheid, de bekendheid bij heel veel mensen." },
+      { "woord": "de roddelpers", "betekenis": "De kranten, tijdschriften, radio- en televisieprogramma’s waarin roddels en verzonnen verhalen over bekende mensen worden verteld." },
+      { "woord": "in de schijnwerpers staan", "betekenis": "In het middelpunt van de belangstelling staan." },
+      { "woord": "het schoonheidsideaal", "betekenis": "De volmaakte schoonheid, volgens veel mensen." },
+      { "woord": "de telelens", "betekenis": "Een speciale lens op een camera waarmee je dingen die ver weg zijn, kunt fotograferen alsof ze dichtbij zijn." },
+      { "woord": "verschijnen", "betekenis": "Tevoerschijn komen, zich laten zien. In de media verschijnen betekent: in de media komen." }
+    ]
+  },
+  "Nederland": {
+    "les_1": [
+      { "woord": "chauvinistisch", "betekenis": "Overdreven trots op je vaderland." },
+      { "woord": "het compromis", "betekenis": "Een besluit of oplossing waarbij beide partijen een beetje toegeven." },
+      { "woord": "inpolderen", "betekenis": "Land maken door (een deel van) een meer of zee droog te maken en er dijken omheen te leggen." },
+      { "woord": "karakteristiek", "betekenis": "Waaraan je iets of iemand meteen herkent." },
+      { "woord": "de klederdracht", "betekenis": "De kleren die mensen in een bepaalde streek of in een bepaald land dragen." },
+      { "woord": "het landschap", "betekenis": "De aanblik die een bepaald stuk land biedt, bijvoorbeeld heuvelachtig." },
+      { "woord": "de moedertaal", "betekenis": "De taal die je het eerst hebt geleerd (van je ouders)." },
+      { "woord": "nostalgisch", "betekenis": "Verlangend naar vroeger." },
+      { "woord": "oer-Hollands", "betekenis": "Heel erg Nederlands." },
+      { "woord": "onderhandelen", "betekenis": "Over iets praten en proberen het eens te worden." },
+      { "woord": "opmerkelijk", "betekenis": "Opvallend, aandacht vragend." },
+      { "woord": "plat", "betekenis": "Met dialect, of met een accent waaraan je kunt horen uit welke streek iemand komt." },
+      { "woord": "polderen", "betekenis": "Onderhandelen tot er een besluit valt waar iedereen tevreden mee is." },
+      { "woord": "representatief", "betekenis": "Dit zeg je van mensen of dingen die een goed beeld geven van de groep waar ze bij horen." },
+      { "woord": "het Standaardnederlands", "betekenis": "Het officiële woord voor de Nederlandse taal." },
+      { "woord": "de streektaal", "betekenis": "Het dialect." },
+      { "woord": "typisch", "betekenis": "Speciaal bij iemand of iets passend." },
+      { "woord": "het vaderland", "betekenis": "Het land waarin je geboren bent." },
+      { "woord": "de waterwerken", "betekenis": "Bouwsels om het water tegen te houden of de waterstand te regelen, bijvoorbeeld dijken." },
+      { "woord": "de zeespiegel", "betekenis": "De hoogte van het zeewater." }
+    ],
+    "les_5": [
+      { "woord": "beïnvloeden", "betekenis": "Invloed hebben, waardoor mensen en dingen veranderen." },
+      { "woord": "democratisch", "betekenis": "Zo noem je een land waar het volk veel invloed heeft op hoe het land geregeerd wordt." },
+      { "woord": "direct", "betekenis": "Rechtstreeks, meteen zeggen waar het om gaat." },
+      { "woord": "emigreren", "betekenis": "Verhuizen naar een ander land, het tegengestelde van immigreren." },
+      { "woord": "exporteren", "betekenis": "Iets naar een ander land brengen/verkopen aan het buitenland." },
+      { "woord": "de godsdienstvrijheid", "betekenis": "Je mag geloven wat je wilt, zonder dat je daarvoor gestraft of gevangengezet wordt." },
+      { "woord": "handel drijven", "betekenis": "Zaken doen, kopen en verkopen." },
+      { "woord": "immigreren", "betekenis": "In een land komen wonen, het tegengestelde van emigreren." },
+      { "woord": "de kolonie", "betekenis": "Een land dat door een ander land veroverd is en bestuurd wordt." },
+      { "woord": "de levensovertuiging", "betekenis": "Een mening over hoe je moet leven." },
+      { "woord": "de normen en waarden", "betekenis": "De regels en ideeën over wat er goed en slecht is." },
+      { "woord": "nuchter", "betekenis": "Praktisch, zakelijk." },
+      { "woord": "ongeacht", "betekenis": "Zonder te letten op." },
+      { "woord": "het overzees gebied", "betekenis": "Een gebied of land aan de andere kant van een oceaan." },
+      { "woord": "de samenleving", "betekenis": "Alle mensen samen binnen een land of cultuur en de manier waarop ze leven en met elkaar omgaan." },
+      { "woord": "stemmen", "betekenis": "Kiezen voor iemand van een politieke partij." },
+      { "woord": "tolerant", "betekenis": "Verdraagzaam. Je vindt het geen probleem als mensen anders denken." },
+      { "woord": "voormalig", "betekenis": "Vroeger." },
+      { "woord": "de vrijheid van meningsuiting", "betekenis": "Je mag zeggen wat je denkt en vindt, zonder dat je daarvoor gestraft of gevangengezet wordt." },
+      { "woord": "wereldwijd", "betekenis": "Over de hele wereld." }
+    ]
+  },
+  "Helden": {
+    "les_1": [
+      { "woord": "het eigenbelang", "betekenis": "Het voordeel voor jezelf, wat alleen voor jezelf belangrijk is." },
+      { "woord": "falen", "betekenis": "Mislukken, tekortschieten." },
+      { "woord": "gevierd", "betekenis": "Beroemd en door iedereen geprezen." },
+      { "woord": "heldhaftig", "betekenis": "Heroïsch. Erg dapper en moedig, als een held." },
+      { "woord": "heroïsch", "betekenis": "Heldhaftig. Erg dapper en moedig, als een held." },
+      { "woord": "het initiatief", "betekenis": "De eerste aanzet tot iets. Voorstel dat je als eerste doet of actie die je als eerste onderneemt." },
+      { "woord": "de lofzang", "betekenis": "Een lied waarmee je iemand eert of prijst." },
+      { "woord": "nastreven", "betekenis": "Proberen te bereiken." },
+      { "woord": "nomineren", "betekenis": "Voorstellen om iemand een prijs te geven." },
+      { "woord": "onovertroffen", "betekenis": "Uitstekend. Nog niet beter gedaan. Er bestaat geen betere van." },
+      { "woord": "ophemelen", "betekenis": "Iets of iemand erg of overdreven prijzen." },
+      { "woord": "zich opofferen", "betekenis": "Veel voor iets overhebben, zonder rekening te houden met je eigen voordeel." },
+      { "woord": "rebels", "betekenis": "Als iemand zich snel tegen iets verzet. Opstandig." },
+      { "woord": "tegendraads", "betekenis": "Gezegd van iemand die anders wil zijn of een andere mening heeft dan anderen." },
+      { "woord": "uitmuntend", "betekenis": "Uitstekend, voortreffelijk." },
+      { "woord": "de verdienste", "betekenis": "Iets goeds wat je hebt gedaan en waarvoor je lof verdient." },
+      { "woord": "vereren", "betekenis": "Iemand diep bewonderen of eer bewijzen." },
+      { "woord": "op een voetstuk plaatsen", "betekenis": "Iemand erg bewonderen, tegen hem opkijken." },
+      { "woord": "volharden", "betekenis": "Doorgaan met iets, ook als het moeilijk wordt." },
+      { "woord": "voordragen", "betekenis": "Als kandidaat voorstellen." }
+    ],
+    "les_5": [
+      { "woord": "in actie komen", "betekenis": "Aan de gang gaan, iets gaan doen." },
+      { "woord": "astronomisch", "betekenis": "Onvoorstelbaar groot." },
+      { "woord": "de bravoure", "betekenis": "Het gedrag waaruit blijkt dat je veel lef hebt." },
+      { "woord": "buitengewoon", "betekenis": "Bijzonder, afwijkend." },
+      { "woord": "het eerbetoon", "betekenis": "Het bewijs dat je iemand vereert." },
+      { "woord": "de erkenning", "betekenis": "De waardering, de roem." },
+      { "woord": "geducht", "betekenis": "Gevreesd. Als je er best bang voor bent." },
+      { "woord": "de lauwerkrans", "betekenis": "Een krans van laurierbladeren als teken van overwinning." },
+      { "woord": "de maatschappij", "betekenis": "De samenleving. Alle mensen samen en de manieren waarop ze met elkaar omgaan." },
+      { "woord": "miskend", "betekenis": "Ten onrechte niet gewaardeerd." },
+      { "woord": "de ode", "betekenis": "Een lied of gedicht waarmee je iemand prijst of eert." },
+      { "woord": "onthutsend", "betekenis": "Verbijsterend. Je raakt erdoor van streek." },
+      { "woord": "onverschrokken", "betekenis": "Zonder angst, dapper." },
+      { "woord": "het respect", "betekenis": "De waardering of erkenning voor wat iemand doet of hoe iemand is." },
+      { "woord": "spraakmakend", "betekenis": "Als er veel over gesproken wordt, opzienbarend." },
+      { "woord": "de status", "betekenis": "Je aanzien in de samenleving." },
+      { "woord": "de toewijding", "betekenis": "De aandacht en liefde voor iets wat je doet." },
+      { "woord": "triomferen", "betekenis": "Een overwinning behalen, zegevieren." },
+      { "woord": "verbluffend", "betekenis": "Verbazingwekkend. Je staat er versteld van." },
+      { "woord": "waarderen", "betekenis": "Goed of fijn vinden, op prijs stellen." }
+    ]
+  }
+};
 
-        <!-- GENERIEKE WERKOMGEVING VOOR VRAGEN -->
-        <div id="workspace-view" class="view-section">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                <h2 id="workspace-title">Oefening</h2>
-                <button class="btn btn-danger entry-back-btn">Stop ❌</button>
-            </div>
-            
-            <div class="progress-bar"><div id="workspace-progress" class="progress-fill"></div></div>
-            
-            <div id="dynamic-content"></div>
-            <div id="workspace-feedback" class="feedback-zone"></div>
-            
-            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:15px;">
-                <button id="btn-submit-answer" class="btn btn-primary">Controleer</button>
-                <button id="btn-next-question" class="btn btn-warning" style="display:none;">Volgende ➡️</button>
-            </div>
-        </div>
+// Vlakke lijst maken van alle woorden om makkelijk willekeurig te kiezen
+let alleWoorden = [];
 
-        <!-- VOORTGANG -->
-        <div id="progress-view" class="view-section">
-            <button class="btn btn-primary entry-back-btn">⬅️ Terug naar Dashboard</button>
-            <h2 style="margin:20px 0 10px 0;">📊 Gemaakte Sessies</h2>
-            <table class="history-table">
-                <thead>
-                    <tr>
-                        <th>Datum</th>
-                        <th>Onderdeel</th>
-                        <th>Niveau</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-                <tbody id="history-rows"></tbody>
-            </table>
-        </div>
-
-        <!-- INSTELLINGEN -->
-        <div id="settings-view" class="view-section">
-            <button class="btn btn-primary entry-back-btn">⬅️ Terug naar Dashboard</button>
-            <h2 style="margin:20px 0 10px 0;">⚙️ Instellingen</h2>
-            <div style="margin: 15px 0;">
-                <label><strong>Thema:</strong></label>
-                <select id="theme-select" class="level-select"><option value="light">Licht</option><option value="dark">Donker</option></select>
-            </div>
-            <div style="margin: 15px 0;">
-                <label><strong>Spreeksnelheid:</strong></label>
-                <input type="range" id="speech-rate" min="0.6" max="1.2" step="0.1" value="0.85">
-            </div>
-            <button id="btn-hard-reset" class="btn btn-danger" style="margin-top:20px;">Reset Score & Streak</button>
-        </div>
-
-    </div>
-
-    <script>
-        /**
-         * UITGEBREIDE ONDERWIJS DATABASE (Geen lege loops, geen herhalingen)
-         */
-        const Database = {
-            spelling: {
-                b6: [
-                    {q: "Welke schrijfwijze is correct?", o: ["parijs", "Parijs", "Parijsen"], c: "Parijs", u: "Eigennamen en steden schrijven we altijd met een hoofdletter."},
-                    {q: "Vul het juiste koppelteken of apostrof in: 's ... avonds", o: ["-", "s", "'s"], c: "'s", u: "'s avonds is een vaste afkorting van des avonds."},
-                    {q: "Vul de juiste klinker in bij deze open lettergreep: j...ger", o: ["a", "aa", "e"], c: "a", u: "Bij een lange klank aan het einde van een klankgroep (ja-ger) schrijf je één klinker."}
-                ],
-                m6: [
-                    {q: "Kies het juiste woord (ei of ij): De kapitein vaart naar het ...land.", o: ["eijland", "ijland", "eiland"], c: "eiland", u: "Eiland staat op de ei-plaat en schrijf je dus met een korte ei."},
-                    {q: "Vul de juiste tussenletter in: pannen...koek", o: ["n", "en", "e"], c: "en", u: "Omdat een pan alleen een meervoud op -en heeft (pannen), krijgt de samenstelling een tussen-n."},
-                    {q: "Wat is de juiste vorm van het werkwoord in de verleden tijd: Gisteren ... (fietsen) ik naar school.", o: ["fietste", "fietsde", "fietsten"], c: "fietste", u: "De stam van fietsen eindigt op -s. Dit zit in 't kofschip, dus voegen we -te toe."}
-                ],
-                b7: [
-                    {q: "Wat is de juiste spelling van dit Franse leenwoord?", o: ["nivo", "niveau", "niveaux"], c: "niveau", u: "Niveau is een Frans leenwoord dat zijn oorspronkelijke spelling behoudt."},
-                    {q: "Kies het correct gespelde woord:", o: ["automatisch", "automaties", "automatischs"], c: "automatisch", u: "Woorden die eindigen op de klank /ies/ schrijven we vaak als -isch."},
-                    {q: "Vul in: De zon...schijn is heerlijk vandaag.", o: ["en", "e", "s"], c: "e", u: "Er is maar één zon in ons zonnestelsel, dus krijgt de samenstelling geen tussen-n."}
-                ],
-                m7: [
-                    {q: "Wat is de juiste spelling van dit woord op -teit?", o: ["universiteit", "universíteit", "universitijd"], c: "universiteit", u: "Woorden die eindigen op het achtervoegsel -teit schrijven we altijd met -eit."},
-                    {q: "Kies de juiste spelling voor het meervoud van auto:", o: ["autos", "auto's", "autoes"], c: "auto's", u: "Woorden die eindigen op een lange klinker (a, o, u, i) krijgen in het meervoud apostrof-s om de klank te behouden."},
-                    {q: "Wat is het correct gespelde Engelse leenwoord?", o: ["computter", "computar", "computer"], c: "computer", u: "Computer nemen we rechtstreeks over uit het Engels."}
-                ]
-            },
-            dictee: {
-                b6: [
-                    {w: "koninkrijk", z: "Het koninkrijk werd goed beschermd."},
-                    {w: "snelheid", z: "De auto reed met hoge snelheid."}
-                ],
-                m6: [
-                    {w: "meisje", z: "Dat kleine meisje loopt op straat."},
-                    {w: "verhuizen", z: "Wij gaan volgende week verhuizen."}
-                ],
-                b7: [
-                    {w: "interessant", z: "Dit is een erg interessant geschiedenisboek."},
-                    {w: "kritisch", z: "De meester keek heel kritisch naar mijn werk."}
-                ],
-                m7: [
-                    {w: "elektriciteit", z: "Zonder elektriciteit doet het licht het niet."},
-                    {w: "miljonair", z: "De man won de loterij en werd miljonair."}
-                ]
-            },
-            grammatica: {
-                b6: [
-                    {z: "De grote zwarte hond blaft luid.", type: "ow", q: "Klik op het **Onderwerp (wie/wat + pv)** van de zin:"},
-                    {z: "Morgen gaat onze klas naar het museum.", type: "pv", q: "Klik op de **Persoonsvorm (maak de zin vragend)**:"}
-                ],
-                m6: [
-                    {z: "De timman bouwt een stevig huis.", type: "lv", q: "Klik op het **Lijdend voorwerp (wie/wat + pv + ow)** van de zin:"},
-                    {z: "Mijn zusje heeft gisteren een prachtige tekening gemaakt.", type: "pv", q: "Klik op de **Persoonsvorm** van deze zin:"}
-                ],
-                b7: [
-                    {z: "De trotse leraar geeft de leerlingen een pluim.", type: "mw", q: "Klik op het **Meewerkend voorwerp (aan/voor wie)**:"},
-                    {z: "In de vakantie zijn wij naar Frankrijk gereisd.", type: "wg", q: "Klik op het **Werkwoordelijk gezegde (alle werkwoorden samen)**:", multi: true}
-                ],
-                m7: [
-                    {z: "Die oude man is al jaren onze trouwe buurman.", type: "ng", q: "Klik op het **Naamwoordelijk gezegde**:", multi: true},
-                    {z: "De kinderen spelen enthousiast in de tuin.", type: "bn", q: "Klik op het **Bijvoeglijk naamwoord (zegt iets over het zelfstandig naamwoord)**:"}
-                ]
-            },
-            woordenschat: {
-                b6: [
-                    {q: "Wat is de **tegenstelling** van het woord: 'gierig'?", o: ["arm", "vrijgevig", "rijk", "boos"], c: "vrijgevig"},
-                    {q: "Welk woord hoort bovenaan de **woordparaplu** waar ook 'hond, kat, goudvis' onder vallen?", o: ["Huisdieren", "Planten", "Voertuigen"], c: "Huisdieren"}
-                ],
-                m6: [
-                    {q: "Wat betekent de uitdrukking: 'De kat uit de boom kijken'?", o: ["Een afwachtende houding aannemen", "Heel snel omhoog klimmen", "Direct in actie komen"], c: "Een afwachtende houding aannemen"},
-                    {q: "Wat is het **synoniem** (andere woord met dezelfde betekenis) van: 'vervaardigen'?", o: ["slopen", "maken", "kopen"], c: "maken"}
-                ],
-                b7: [
-                    {q: "Wat betekent het spreekwoord: 'Als de kat van huis is, dansen de muizen op tafel'?", o: ["Zonder toezicht doet iedereen wat hij wil", "Muizen zijn banger dan katten", "Het is tijd voor een feestje"], c: "Zonder toezicht doet iedereen wat hij wil"},
-                    {q: "Wat is de **figuurlijke** betekenis van: 'Hij heeft zware benen'?", o: ["Zijn benen wegen letterlijk 50 kilo", "Hij is erg moe van het rennen", "Hij heeft dikke kleren aan"], c: "Hij is erg moe van het rennen"}
-                ],
-                m7: [
-                    {q: "Wat is het synoniem van het woord: 'rigoureus'?", o: ["voorzichtig", "ingrijpend en grondig", "langzaam"], c: "ingrijpend en grondig"},
-                    {q: "Wat betekent het woord: 'ambitieus'?", o: ["Graag hoog willen reiken of succesvol willen worden", "Altijd moe zijn", "Geen mening hebben"], c: "Graag hoog willen reiken of succesvol willen worden"}
-                ]
-            },
-            lezen: {
-                b6: [
-                    {t: "De zeeschildpad zwemt duizenden kilometers door de oceaan om eieren te leggen op het strand waar ze zelf ooit uit het ei kroop. Ze graaft diep in het zand en laat de eieren achter. De warme zon broedt ze daarna uit.", q: "Wat is de **hoofdgedachte** van deze tekst?", o: ["Schildpadden houden niet van zwemmen", "Hoe een zeeschildpad haar eieren legt en laat uitbroeden", "De zon is erg gevaarlijk voor schildpadden"], c: "Hoe een zeeschildpad haar eieren legt en laat uitbroeden"}
-                ],
-                m6: [
-                    {t: "Koninginnenpage-vlinders leggen eitjes op wortelloof. Binnen een paar dagen kruipt er een piepkleine rups uit. Deze eet zijn buik rond, verhopt zich na een aantal weken, en transformeert uiteindelijk tot een prachtige vlinder.", q: "Wat is de juiste **volgorde** van de levenscyclus?", o: ["Rups -> Ei -> Pop -> Vlinder", "Ei -> Rups -> Pop -> Vlinder", "Pop -> Vlinder -> Rups -> Ei"], c: "Ei -> Rups -> Pop -> Vlinder"}
-                ],
-                b7: [
-                    {t: "Veel wetenschappers zijn het erover eens dat plastic in de oceaan een gigantisch probleem is voor zeedieren. Vissen zien microplastics aan voor voedsel, wat hun maag blokkeert. Dit is een onomstotelijk feit.", q: "Is de bewering 'Plastic blokkeert de maag van vissen' een feit of een mening?", o: ["Feit", "Mening"], c: "Feit"}
-                ],
-                m7: [
-                    {t: "De burgemeester claimt dat de nieuwe snelweg de economie zal boosten. Milieuorganisaties beweren daarentegen dat het unieke bosgebied hierdoor onherstelbaar verwoest wordt. Beide partijen gebruiken andere bronnen.", q: "Hoe kun je het standpunt van de milieuorganisaties omschrijven?", o: ["Subjectief en puur gebaseerd op emotie", "Tegen de snelweg vanwege de schade aan het bosgebied", "Voorstander van economische groei"], c: "Tegen de snelweg vanwege de schade aan het bosgebied"}
-                ]
-            },
-            engels: {
-                b6: [], m6: [],
-                b7: [
-                    {q: "Vertaal de zin: 'Ik heb twee broers'", o: ["I have two brothers", "I am two brothers", "I have two sisters"], c: "I have two brothers"},
-                    {q: "Welke dag van de week is 'Thursday'?", o: ["Dinsdag", "Donderdag", "Vrijdag"], c: "Donderdag"}
-                ],
-                m7: [
-                    {q: "Wat betekent de Engelse zin: 'What time is it?'", o: ["Hoe laat is het?", "Welke dag is het?", "Waar ga je heen?"], c: "Hoe laat is het?"},
-                    {q: "Kies de juiste kleur voor 'an orange':", o: ["Red", "Orange", "Yellow"], c: "Orange"}
-                ]
-            }
-        };
-
-        /**
-         * STATE MANAGEMENT
-         */
-        let appState = {
-            points: 0,
-            level: 1,
-            streak: 0,
-            history: [],
-            settings: { theme: 'light', rate: 0.85 }
-        };
-
-        let currentSession = {
-            mode: '',
-            level: 'b6',
-            questions: [],
-            currentIndex: 0,
-            score: 0,
-            selectedAnswers: [] // Voor grammatica woordkliks
-        };
-
-        // DOM Elements
-        const mainDashboard = document.getElementById("dashboard-view");
-        const workspaceView = document.getElementById("workspace-view");
-        const progressView = document.getElementById("progress-view");
-        const settingsView = document.getElementById("settings-view");
-        const dynamicContent = document.getElementById("dynamic-content");
-        const workspaceFeedback = document.getElementById("workspace-feedback");
-        const btnSubmit = document.getElementById("btn-submit-answer");
-        const btnNext = document.getElementById("btn-next-question");
-        const levelSelector = document.getElementById("level-selector");
-
-        /**
-         * APPLICATION LOGIC & BOOTSTRAP
-         */
-        document.addEventListener("DOMContentLoaded", () => {
-            initStorage();
-            setupGlobalEvents();
-            syncUI();
-        });
-
-        function initStorage() {
-            const saved = localStorage.getItem("taalapp_master_2026");
-            if (saved) {
-                try { appState = Object.assign(appState, JSON.parse(saved)); } catch(e) {}
-            }
-            document.getElementById("theme-select").value = appState.settings.theme;
-            document.getElementById("speech-rate").value = appState.settings.rate;
-            applyTheme();
-        }
-
-        function saveState() {
-            localStorage.setItem("taalapp_master_2026", JSON.stringify(appState));
-            syncUI();
-        }
-
-        function applyTheme() {
-            document.documentElement.setAttribute("data-theme", appState.settings.theme);
-        }
-
-        function syncUI() {
-            document.getElementById("stat-points").innerText = appState.points;
-            appState.level = Math.floor(appState.points / 30) + 1;
-            document.getElementById("stat-level").innerText = appState.level;
-            
-            let m = "🥉 Brons";
-            if(appState.points > 150) m = "🏆 Meester";
-            else if(appState.points > 90) m = "💎 Diamant";
-            else if(appState.points > 50) m = "🥇 Goud";
-            else if(appState.points > 20) m = "🥈 Zilver";
-            document.getElementById("stat-medal").innerText = m;
-            document.getElementById("stat-streak").innerText = appState.streak;
-
-            // Verberg Engels voor Groep 6
-            const engelsTile = document.getElementById("engels-tile");
-            if(levelSelector.value.includes("7")) {
-                engelsTile.style.display = "flex";
-            } else {
-                engelsTile.style.display = "none";
-            }
-        }
-
-        function setupGlobalEvents() {
-            // Dashboard kliks naar modes
-            document.querySelectorAll(".tile").forEach(tile => {
-                tile.addEventListener("click", () => {
-                    const mode = tile.getAttribute("data-mode");
-                    if(mode === "progress") {
-                        showSection(progressView);
-                        renderHistory();
-                    } else if(mode === "settings") {
-                        showSection(settingsView);
-                    } else {
-                        startSession(mode, levelSelector.value);
-                    }
+function bereidWoordenLijstVoor() {
+    alleWoorden = [];
+    for (const thema in woordenData) {
+        for (const les in woordenData[thema]) {
+            woordenData[thema][les].forEach(item => {
+                alleWoorden.push({
+                    thema: thema,
+                    les: les.replace('_', ' '), // maakt van les_1 -> les 1
+                    woord: item.woord,
+                    betekenis: item.betekenis
                 });
             });
-
-            // Back buttons
-            document.querySelectorAll(".entry-back-btn").forEach(btn => {
-                btn.addEventListener("click", () => {
-                    window.speechSynthesis.cancel();
-                    showSection(mainDashboard);
-                });
-            });
-
-            // Level selector verandering live afvangen
-            levelSelector.addEventListener("change", () => {
-                syncUI();
-            });
-
-            // Settings events
-            document.getElementById("theme-select").addEventListener("change", (e) => {
-                appState.settings.theme = e.target.value;
-                applyTheme();
-                saveState();
-            });
-            document.getElementById("speech-rate").addEventListener("change", (e) => {
-                appState.settings.rate = parseFloat(e.target.value);
-                saveState();
-            });
-            document.getElementById("btn-hard-reset").addEventListener("click", () => {
-                if(confirm("Weet je zeker dat je je score wilt resetten?")) {
-                    appState.points = 0;
-                    appState.streak = 0;
-                    saveState();
-                }
-            });
-
-            // Evaluatie en navigatie binnen de oefeningen
-            btnSubmit.addEventListener("click", evaluateAnswer);
-            btnNext.addEventListener("click", goToNextQuestion);
         }
+    }
+}
 
-        function showSection(section) {
-            mainDashboard.style.display = "none";
-            workspaceView.style.display = "none";
-            progressView.style.display = "none";
-            settingsView.style.display = "none";
-            section.style.display = "flex";
-        }
+function toonNieuwWoord() {
+    if (alleWoorden.length === 0) {
+        bereidWoordenLijstVoor();
+    }
+    
+    // Kies een willekeurig item uit de hele lijst
+    const willekeurigeIndex = Math.floor(Math.random() * alleWoorden.length);
+    const gekozenItem = alleWoorden[willekeurigeIndex];
+    
+    // Update de HTML elementen
+    document.getElementById('word-display').innerText = gekozenItem.woord;
+    document.getElementById('meaning-display').innerText = gekozenItem.betekenis;
+    document.getElementById('meta-info').innerText = `Groep 7 • Thema: ${gekozenItem.thema} • ${gekozenItem.les}`;
+}
 
-        /**
-         * SESSION ENGINE (DE KERN VAN DE CORRECTIES)
-         */
-        function startSession(mode, level) {
-            let pool = Database[mode]?.[level] || [];
-            
-            // Fallback voor Engels in groep 6 (schaalt mee naar basis 7)
-            if(pool.length === 0 && mode === "engels") {
-                pool = Database["engels"]["b7"];
-            }
+// Start direct met een woord zodra de pagina laadt
+window.onload = function() {
+    bereidWoordenLijstVoor();
+    toonNieuwWoord();
+};
+</script>
 
-            if(pool.length === 0) {
-                alert("Er zijn voor dit specifieke niveau momenteel geen vragen geladen.");
-                return;
-            }
-
-            currentSession.mode = mode;
-            currentSession.level = level;
-            // Kopieer en schud de vragenpool om herhalingen te voorkomen
-            currentSession.questions = [...pool].sort(() => 0.5 - Math.random());
-            currentSession.currentIndex = 0;
-            currentSession.score = 0;
-
-            document.getElementById("workspace-title").innerText = mode.toUpperCase();
-            showSection(workspaceView);
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            workspaceFeedback.style.display = "none";
-            btnSubmit.style.display = "inline-flex";
-            btnNext.style.display = "none";
-            currentSession.selectedAnswers = [];
-
-            const total = currentSession.questions.length;
-            const current = currentSession.currentIndex;
-            document.getElementById("workspace-progress").style.width = `${(current / total) * 100}%`;
-
-            if(current >= total) {
-                finishSession();
-                return;
-            }
-
-            const qData = currentSession.questions[current];
-            dynamicContent.innerHTML = "";
-
-            // Bouw UI op basis van de modus
-            if(currentSession.mode === "dictee") {
-                dynamicContent.innerHTML = `
-                    <div class="exercise-box" style="text-align:center;">
-                        <button id="btn-dictee-audio" class="btn btn-warning" style="margin-bottom:15px; font-size:1.2rem;">🔊 Luister naar het woord</button>
-                        <p>Typ het woord dat je hoort zorgvuldig over:</p>
-                        <input type="text" id="dictee-raw-input" class="input-text" autocomplete="off" placeholder="Jouw antwoord...">
-                    </div>
-                `;
-                
-                const playAudio = () => {
-                    window.speechSynthesis.cancel();
-                    let msg = new SpeechSynthesisUtterance(`Het woord is: ${qData.w}. Ik herhaal de zin: ${qData.z}`);
-                    msg.lang = "nl-NL";
-                    msg.rate = appState.settings.rate;
-                    window.speechSynthesis.speak(msg);
-                };
-
-                document.getElementById("btn-dictee-audio").addEventListener("click", playAudio);
-                // Direct automatisch uitspreken bij openen
-                playAudio();
-
-            } else if(currentSession.mode === "grammatica") {
-                // Grammatica & Zinsontleding via duidelijke interactieve woordbubbels
-                let woorden = qData.z.split(" ");
-                let bubblesHtml = woorden.map((w, idx) => `<button class="word-bubble" data-idx="${idx}">${w}</button>`).join("");
-                
-                dynamicContent.innerHTML = `
-                    <div class="exercise-box">
-                        <p style="margin-bottom:15px; font-weight:bold;">${qData.q}</p>
-                        <div class="word-bubble-container">${bubblesHtml}</div>
-                    </div>
-                `;
-
-                document.querySelectorAll(".word-bubble").forEach(bubble => {
-                    bubble.addEventListener("click", () => {
-                        let idx = bubble.getAttribute("data-idx");
-                        if(qData.multi) {
-                            bubble.classList.toggle("selected");
-                            if(bubble.classList.contains("selected")) {
-                                currentSession.selectedAnswers.push(woorden[idx]);
-                            } else {
-                                currentSession.selectedAnswers = currentSession.selectedAnswers.filter(w => w !== woorden[idx]);
-                            }
-                        } else {
-                            document.querySelectorAll(".word-bubble").forEach(b => b.classList.remove("selected"));
-                            bubble.classList.add("selected");
-                            currentSession.selectedAnswers = [woorden[idx]];
-                        }
-                    });
-                });
-
-            } else {
-                // Begrijpend lezen, spelling, woordenschat en engels gebruiken de meerkeuzematrix
-                let textContainer = qData.t ? `<div class="exercise-box" style="margin-bottom:15px; text-align:left; background:#fff; border-left:5px solid var(--primary-color);">${qData.t}</div>` : '';
-                
-                let optHtml = qData.o.map(o => `<button class="option-btn">${o}</button>`).join("");
-
-                dynamicContent.innerHTML = `
-                    ${textContainer}
-                    <div class="exercise-box">
-                        <p style="margin-bottom:15px; font-weight:bold;">${qData.q}</p>
-                        <div class="options-grid">${optHtml}</div>
-                    </div>
-                `;
-
-                document.querySelectorAll(".option-grid, .option-btn").forEach(btn => {
-                    btn.addEventListener("click", () => {
-                        document.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
-                        btn.classList.add("selected");
-                        currentSession.selectedAnswers = [btn.innerText];
-                    });
-                });
-            }
-        }
-
-        function evaluateAnswer() {
-            const qData = currentSession.questions[currentSession.currentIndex];
-            let isCorrect = false;
-            let correctStr = "";
-
-            if(currentSession.mode === "dictee") {
-                let userVal = document.getElementById("dictee-raw-input").value.trim().toLowerCase();
-                correctStr = qData.w;
-                isCorrect = (userVal === qData.w.toLowerCase());
-            } else if(currentSession.mode === "grammatica") {
-                // Schoon de leestekens op voor vergelijking
-                let cleanedAns = currentSession.selectedAnswers.map(w => w.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"")).join(" ").toLowerCase();
-                let cleanTarget = "";
-                
-                if(qData.type === "pv") cleanTarget = qData.pv;
-                if(qData.type === "ow") cleanTarget = qData.ow;
-                if(qData.type === "lv") cleanTarget = qData.lv;
-                if(qData.type === "mw") cleanTarget = qData.mw;
-                if(qData.type === "wg") cleanTarget = qData.wg;
-                if(qData.type === "ng") cleanTarget = qData.ng;
-                if(qData.type === "bn") cleanTarget = qData.bn;
-
-                correctStr = cleanTarget;
-                isCorrect = (cleanedAns.trim() === cleanTarget.toLowerCase().trim());
-            } else {
-                if(currentSession.selectedAnswers.length === 0) {
-                    alert("Kies eerst een antwoord!");
-                    return;
-                }
-                correctStr = qData.c;
-                isCorrect = (currentSession.selectedAnswers[0] === qData.c);
-            }
-
-            workspaceFeedback.style.display = "block";
-            if(isCorrect) {
-                workspaceFeedback.innerText = "🎯 Fantastisch! Je bent een echte taalheld!";
-                workspaceFeedback.style.background = "var(--secondary-color)";
-                workspaceFeedback.style.color = "white";
-                currentSession.score++;
-                appState.points += 2;
-            } else {
-                workspaceFeedback.innerText = `💡 Oeps! Het juiste antwoord moest zijn: "${correctStr}". \n Uitleg: ${qData.u || 'Goed onthouden voor de volgende keer!'}`;
-                workspaceFeedback.style.background = "var(--accent-color)";
-                workspaceFeedback.style.color = "white";
-            }
-
-            btnSubmit.style.display = "none";
-            btnNext.style.display = "inline-flex";
-            saveState();
-        }
-
-        function goToNextQuestion() {
-            currentSession.currentIndex++;
-            loadQuestion();
-        }
-
-        function finishSession() {
-            appState.streak += 1;
-            appState.history.unshift({
-                date: new Date().toLocaleDateString('nl-NL'),
-                mode: currentSession.mode.toUpperCase(),
-                level: currentSession.level.toUpperCase(),
-                score: `${currentSession.score}/${currentSession.questions.length}`
-            });
-
-            if(appState.history.length > 200) appState.history.pop();
-            saveState();
-
-            dynamicContent.innerHTML = `
-                <div class="exercise-box" style="text-align:center; padding:40px 20px;">
-                    <h2>🎉 Sessie Afgerond!</h2>
-                    <p style="font-size:1.4rem; margin:15px 0;">Je score: <strong>${currentSession.score}</strong> goed van de ${currentSession.questions.length}</p>
-                    <p>Je hebt extra punten verdiend! Ga zo door.</p>
-                    <button class="btn btn-secondary" onclick="showSection(mainDashboard)" style="margin-top:20px;">Terug naar het Dashboard</button>
-                </div>
-            `;
-            btnSubmit.style.display = "none";
-            btnNext.style.display = "none";
-        }
-
-        function renderHistory() {
-            const container = document.getElementById("history-rows");
-            container.innerHTML = "";
-            if(appState.history.length === 0) {
-                container.innerHTML = `<tr><td colspan="4">Nog geen oefensessies geregistreerd.</td></tr>`;
-                return;
-            }
-            appState.history.forEach(h => {
-                container.innerHTML += `<tr><td>${h.date}</td><td>${h.mode}</td><td>${h.level}</td><td>${h.score}</td></tr>`;
-            });
-        }
-    </script>
 </body>
 </html>
