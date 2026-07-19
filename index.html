@@ -165,7 +165,7 @@
 
         .options-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 12px;
             margin: 15px 0;
         }
@@ -246,10 +246,8 @@
                 <div class="stat-pill">🔥 <span id="stat-streak">0</span> dagen</div>
             </div>
             <select id="level-selector" class="level-select">
-                <option value="b6">Begin Groep 6</option>
-                <option value="m6">Midden Groep 6</option>
-                <option value="b7">Begin Groep 7</option>
-                <option value="m7">Midden Groep 7</option>
+                <option value="gr6">Groep 6</option>
+                <option value="gr7">Groep 7</option>
             </select>
         </header>
 
@@ -261,13 +259,13 @@
                 <div class="tile" data-mode="dictee"><div class="tile-icon">🎤</div><div class="tile-title">Dictee</div></div>
                 <div class="tile" data-mode="grammatica"><div class="tile-icon">📝</div><div class="tile-title">Grammatica</div></div>
                 <div class="tile" data-mode="woordenschat"><div class="tile-icon">📚</div><div class="tile-title">Woordenschat</div></div>
-                <div class="tile" data-mode="engels" id="engels-tile"><div class="tile-icon">🇬🇧</div><div class="tile-title">Engels (Gr. 7)</div></div>
+                <div class="tile" data-mode="engels" id="engels-tile"><div class="tile-icon">🇬🇧</div><div class="tile-title">Engels</div></div>
                 <div class="tile" data-mode="progress"><div class="tile-icon">📈</div><div class="tile-title">Voortgang</div></div>
                 <div class="tile" data-mode="settings"><div class="tile-icon">⚙️</div><div class="tile-title">Instellingen</div></div>
             </div>
         </div>
 
-        <!-- GENERIEKE WERKOMGEVING VOOR VRAGEN -->
+        <!-- WORKSPACE -->
         <div id="workspace-view" class="view-section">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
                 <h2 id="workspace-title">Oefening</h2>
@@ -285,7 +283,7 @@
             </div>
         </div>
 
-        <!-- VOORTGANG -->
+        <!-- PROGRESS -->
         <div id="progress-view" class="view-section">
             <button class="btn btn-primary entry-back-btn">⬅️ Terug naar Dashboard</button>
             <h2 style="margin:20px 0 10px 0;">📊 Gemaakte Sessies</h2>
@@ -302,7 +300,7 @@
             </table>
         </div>
 
-        <!-- INSTELLINGEN -->
+        <!-- SETTINGS -->
         <div id="settings-view" class="view-section">
             <button class="btn btn-primary entry-back-btn">⬅️ Terug naar Dashboard</button>
             <h2 style="margin:20px 0 10px 0;">⚙️ Instellingen</h2>
@@ -321,174 +319,112 @@
 
     <script>
         /**
-         * MASSALE MULTI-CORE ONDERWIJS DATABASE (>300+ Woorden, >150+ Zinnen)
-         * Gestructureerd met generators om dynamisch oneindig veel variatie aan te bieden.
+         * UITGEBREIDE ONDERWIJS DATABASE (GESCHEIDEN PER NIVEAU)
+         * Bevat unieke teksten, spellingkoppelingen en grammaticazinnen.
          */
-        
-        // 300+ Unieke woorden voor Dictee en Spelling categorieën
-        const MasterWordPool = [
-            "koninkrijk", "snelheid", "meisje", "verhuizen", "interessant", "kritisch", "elektriciteit", "miljonair", "computer", "universiteit",
-            "niveau", "automatisch", "pannenkoek", "eiland", "kapitein", "vliegtuig", "bibliotheek", "chocola", "prinses", "kasteel",
-            "politie", "officier", "chauffeur", "station", "vakantie", "operatie", "portemonnee", "cadeau", "liniaal", "agenda",
-            "tomaat", "aardappel", "groente", "fruit", "sinaasappel", "citroen", "banaan", "aardbei", "framboos", "abrikoos",
-            "olifant", "giraffe", "krokodil", "kangoeroe", "pinguïn", "dolfijn", "walvis", "haai", "zeehond", "schildpad",
-            "meester", "juf", "school", "klaslokaal", "schrijfblok", "potlood", "gum", "rugzak", "gymles", "pauze",
-            "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag", "januari", "februari", "maart",
-            "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december", "seizoen",
-            "lente", "zomer", "herfst", "winter", "regen", "zonneschijn", "sneeuw", "hagel", "onweer", "bliksem",
-            "temperatuur", "thermometer", "weersverwachting", "klimaat", "milieu", "natuur", "bos", "heide", "duinen", "strand",
-            "oceaan", "rivier", "kanaal", "sloot", "vijver", "meer", "waterval", "fontein", "waterkraan", "badkuip",
-            "douche", "handdoek", "tandenborstel", "tandpasta", "zeep", "shampoo", "kam", "borstel", "spiegel", "wastafel",
-            "keuken", "koelkast", "oven", "magnetron", "fornuis", "pan", "bord", "bestek", "lepel", "vork",
-            "mes", "beker", "glas", "vaatwasser", "koffie", "thee", "limonade", "melk", "sap", "water",
-            "ontbijt", "lunch", "diner", "avondeten", "tussendoortje", "snoep", "koekje", "taart", "gebak", "ijs",
-            "fiets", "auto", "trein", "bus", "tram", "metro", "boot", "schip", "helikopter", "raket",
-            "astronaut", "piloot", "machinist", "buschauffeur", "kapitein", "matroos", "reiziger", "passagier", "bagage", "koffer",
-            "rugtas", "paspoort", "ticket", "douane", "grens", "land", "stad", "dorp", "straat", "plein",
-            "park", "speeltuin", "dierentuin", "pretpark", "museum", "bioscoop", "theater", "concert", "muziek", "liedje",
-            "zanger", "gitartist", "pianist", "drummer", "orkest", "instrument", "gitaar", "piano", "fluit", "trompet",
-            "trommel", "viool", "microfoon", "luidspreker", "koptelefoon", "radio", "televisie", "film", "acteur", "camera",
-            "foto", "schilderij", "tekening", "kunst", "kunstenaar", "museum", "tentoonstelling", "galerie", "beeldhouwer", "standbeeld",
-            "monument", "geschiedenis", "toekomst", "verleden", "heden", "tijd", "klok", "horloge", "wekker", "kalender",
-            "eeuw", "jaar", "maand", "week", "dag", "uur", "minuut", "seconde", "ochtend", "middag",
-            "avond", "nacht", "gisteren", "vandaag", "morgen", "overmorgen", "eergisteren", "altijd", "nooit", "soms",
-            "vaak", "zelden", "regelmatig", "meestal", "iedereen", "iemand", "niemand", "alles", "niets", "iets",
-            "groot", "klein", "lang", "kort", "breed", "smal", "dik", "dun", "hoog", "laag",
-            "ver", "dichtbij", "snel", "langzaam", "vroeg", "laat", "oud", "jong", "nieuw", "gebruikt",
-            "mooi", "lelijk", "leuk", "saai", "grappig", "spannend", "eng", "grappig", "vrolijk", "verdrietig",
-            "boos", "bang", "blij", "moe", "fit", "gezond", "ziek", "beter", "arts", "dokter",
-            "ziekenhuis", "medicijn", "pleister", "verband", "pijn", "koorts", "griep", "verkouden", "hoesten", "niezen"
-        ];
-
-        // 150+ Unieke, rijke zinnen ten behoeve van Begrijpend Lezen en Grammatica
-        const MasterSentencePool = [
-            {z: "De grote zwarte hond blaft luid naar de postbode.", ow: ["De", "grote", "zwarte", "hond"], pv: ["blaft"], lv: ["de", "postbode"]},
-            {z: "Morgen gaat onze hele klas naar het grote museum in Amsterdam.", ow: ["onze", "hele", "klas"], pv: ["gaat"], lv: []},
-            {z: "De handige timmerman bouwt een stevig houten speelhuis.", ow: ["De", "handige", "timmerman"], pv: ["bouwt"], lv: ["een", "stevig", "houten", "speelhuis"]},
-            {z: "Mijn jongere zusje heeft gisteren een prachtige tekening gemaakt.", ow: ["Mijn", "jongere", "zusje"], pv: ["heeft"], lv: ["een", "prachtige", "tekening"]},
-            {z: "De trotse leraar geeft de ijverige leerlingen een flinke pluim.", ow: ["De", "trotse", "leraar"], pv: ["geeft"], lv: ["een", "flinke", "pluim"]},
-            {z: "In de zomervakantie zijn wij met de auto naar Frankrijk gereisd.", ow: ["wij"], pv: ["zijn"], lv: []},
-            {z: "Die oude man is al vele jaren onze trouwe buurman.", ow: ["Die", "oude", "man"], pv: ["is"], lv: []},
-            {z: "De jonge kinderen spelen de hele middag enthousiast in de tuin.", ow: ["De", "jonge", "kinderen"], pv: ["spelen"], lv: []},
-            {z: "De snelle wielrenner fietst behendig door de scherpe bocht.", ow: ["De", "snelle", "wielrenner"], pv: ["fietst"], lv: []},
-            {z: "Gisteren bakte mijn oma een heerlijke appeltaart voor het bezoek.", ow: ["mijn", "oma"], pv: ["bakte"], lv: ["een", "heerlijke", "appeltaart"]},
-            {z: "De slimme vos sluipt stilletjes door het donkere bos.", ow: ["De", "slimme", "vos"], pv: ["sluipt"], lv: []},
-            {z: "De enthousiaste supporters juichten luidruchtig na het winnende doelpunt.", ow: ["De", "enthousiaste", "supporters"], pv: ["juichten"], lv: []},
-            {z: "Elke ochtend drinkt mijn vader een grote mok warme koffie.", ow: ["my", "vader", "mijn", "vader"], pv: ["drinkt"], lv: ["een", "grote", "mok", "warme", "koffie"]},
-            {z: "De bibliothecaris zet de boeken netjes terug in de kast.", ow: ["De", "bibliothecaris"], pv: ["zet"], lv: ["de", "boeken"]},
-            {z: "Het kleine vogeltje bouwt een nestje met dunne takjes.", ow: ["Het", "kleine", "vogeltje"], pv: ["bouwt"], lv: ["een", "nestje"]},
-            {z: "Plotseling hoorden wij een harde knal op het schoolplein.", ow: ["wij"], pv: ["hoorden"], lv: ["een", "harde", "knal"]},
-            {z: "De ervaren schilder verft de buitenkant van het huis.", ow: ["De", "ervaren", "schilder"], pv: ["verft"], lv: ["de", "buitenkant", "van", "het", "huis"]},
-            {z: "De dappere brandweerman bluste de gevaarlijke brand in de keuken.", ow: ["De", "dappere", "brandweerman"], pv: ["bluste"], lv: ["de", "gevaarlijke", "brand"]},
-            {z: "De juf legt de moeilijke som nog een keer geduldig uit.", ow: ["De", "juf"], pv: ["legt"], lv: ["de", "moeilijke", "som"]},
-            {z: "De kapitein stuurt het enorme schip veilig de haven in.", ow: ["De", "kapitein"], pv: ["stuurt"], lv: ["het", "enorme", "schip"]},
-            {z: "Tijdens de rekenles schrijven de leerlingen de antwoorden op.", ow: ["de", "leerlingen"], pv: ["schrijven"], lv: ["de", "antwoorden"]},
-            {z: "De bakker bakt elke nacht honderden verse broodjes.", ow: ["De", "bakker"], pv: ["bakt"], lv: ["honderden", "verse", "broodjes"]},
-            {z: "Onze grote hond graaft altijd een diep gat in het zand.", ow: ["Onze", "grote", "hond"], pv: ["graaft"], lv: ["een", "diep", "gat"]},
-            {z: "De toeristen maken prachtige foto's van de oude toren.", ow: ["De", "toeristen"], pv: ["maken"], lv: ["prachtige", "foto's"]},
-            {z: "Het pasgeboren lammetje springt vrolijk rond in de groene wei.", ow: ["Het", "pasgeboren", "lammetje"], pv: ["springt"], lv: []},
-            {z: "De attente ober brengt de drankjes naar het terras.", ow: ["De", "attente", "ober"], pv: ["brengt"], lv: ["de", "drankjes"]},
-            {z: "Mijn oom repareert zijn kapotte fiets in de schuur.", ow: ["Mijn", "oom"], pv: ["repareert"], lv: ["zijn", "kapotte", "fiets"]},
-            {z: "De harde wind waait de bladeren van de bomen.", ow: ["De", "harde", "wind"], pv: ["waait"], lv: ["de", "bladeren"]},
-            {z: "De knappe muzikant speelt een prachtig lied op zijn gitaar.", ow: ["De", "knappe", "muzikant"], pv: ["speelt"], lv: ["een", "prachtig", "lied"]},
-            {z: "De dokter onderzoekt de zieke patiënt heel nauwkeurig.", ow: ["De", "dokter"], pv: ["onderzoekt"], lv: ["de", "zieke", "patiënt"]},
-            {z: "De boer melkt de koeien vroeg in de ochtend.", ow: ["De", "boer"], pv: ["melkt"], lv: ["de", "koeien"]},
-            {z: "De postbode bezorgt een zwaar pakketje bij de buren.", ow: ["De", "postbode"], pv: ["bezorgt"], lv: ["een", "zwaar", "pakketje"]},
-            {z: "De piloot landt het grote passagiersvliegtuig heel rustig.", ow: ["De", "piloot"], pv: ["landt"], lv: ["het", "grote", "passagiersvliegtuig"]},
-            {z: "Mijn moeder leest elke avond een spannend boek in bed.", ow: ["Mijn", "moeder"], pv: ["leest"], lv: ["een", "spannend", "boek"]},
-            {z: "De kat vangt een kleine muis in de kelder.", ow: ["De", "kat"], pv: ["vangt"], lv: ["een", "kleine", "muis"]},
-            {z: "De tuinman snoeit de hoge heg langs de oprijlaan.", ow: ["De", "tuinman"], pv: ["snoeit"], lv: ["de", "hoge", "heg"]},
-            {z: "De politieagent deelt een boete uit aan de fietser zonder licht.", ow: ["De", "politieagent"], pv: ["deelt"], lv: ["een", "boete"]},
-            {z: "Het jonge meisje zingt een vrolijk kerstliedje bij de kerstboom.", ow: ["Het", "jonge", "meisje"], pv: ["zingt"], lv: ["een", "vrolijk", "kerstliedje"]},
-            {z: "De meester schrijft de moeilijke woorden op het grote bord.", ow: ["De", "meester"], pv: ["schrijft"], lv: ["de", "moeilijke", "woorden"]},
-            {z: "De felle zon verwarmt het water in het zwembad snel.", ow: ["De", "felle", "zon"], pv: ["verwarmt"], lv: ["het", "water"]},
-            {z: "De postbode brengt de brieven altijd rond het middaguur.", ow: ["De", "postbode"], pv: ["brengt"], lv: ["de", "brieven"]},
-            {z: "De ober morst per ongeluk een glas cola op de tafel.", ow: ["De", "ober"], pv: ["morst"], lv: ["een", "glas", "cola"]},
-            {z: "De schrijfster bedenkt een magisch verhaal over een draak.", ow: ["De", "schrijfster"], pv: ["bedenkt"], lv: ["een", "magisch", "verhaal"]},
-            {z: "Onze buurvrouw plant prachtige rode rozen in haar voortuin.", ow: ["Onze", "buurvrouw"], pv: ["plant"], lv: ["prachtige", "rode", "rozen"]},
-            {z: "De archeoloog vond een heel oud zwaard in de grond.", ow: ["De", "archeoloog"], pv: ["vond"], lv: ["een", "heel", "oud", "zwaard"]},
-            {z: "De tandarts controleert mijn gebit twee keer per jaar.", ow: ["De", "tandarts"], pv: ["controleert"], lv: ["mijn", "gebit"]},
-            {z: "De speler scoort een prachtig doelpunt in de kruising.", ow: ["De", "speler"], pv: ["scoort"], lv: ["een", "prachtig", "doelpunt"]},
-            {z: "Het grote publiek applaudisseerde wild voor de jonge turnster.", ow: ["Het", "grote", "publiek"], pv: ["applaudisseerde"], lv: []},
-            {z: "De kapper knipt mijn haren lekker kort voor de zomer.", ow: ["De", "kapper"], pv: ["knipt"], lv: ["mijn", "haren"]},
-            {z: "De detective lost de mysterieuze diefstal binnen een dag op.", ow: ["De", "detective"], pv: ["lost"], lv: ["de", "mysterieuze", "diefstal"]}
-        ];
-
-        // Generatorfuncties om oneindig variaties op te werpen gebaseerd op de 450+ basisbronnen
-        const DynamicGenerator = {
-            getSpelling: (level) => {
-                let list = [];
-                for(let i=0; i<30; i++) {
-                    let w = MasterWordPool[Math.floor(Math.random() * MasterWordPool.length)];
-                    list.push({
-                        q: `Wat is de juiste spelling van het woord dat hoort bij de klank /${w}/?`,
-                        o: [w, w + "s", w.replace("ee", "e").replace("oo", "o")],
-                        c: w,
-                        u: `Dit betreft een reguliere vorming conform de spellingregels van groep 6/7.`
-                    });
-                }
-                return list;
-            },
-            getDictee: (level) => {
-                let list = [];
-                for(let i=0; i<30; i++) {
-                    let w = MasterWordPool[Math.floor(Math.random() * MasterWordPool.length)];
-                    list.push({
-                        w: w,
-                        z: `Schrijf het woord op: ${w}.`
-                    });
-                }
-                return list;
-            },
-            getGrammatica: (level) => {
-                let list = [];
-                MasterSentencePool.forEach(item => {
-                    let type = Math.random() > 0.5 ? "ow" : "pv";
-                    list.push({
-                        z: item.z,
-                        type: type,
-                        q: type === "ow" ? "Klik op de woorden die samen het **Onderwerp (wie/wat + pv)** vormen:" : "Klik op de **Persoonsvorm (maak de zin vragend)**:",
-                        multi: type === "ow",
-                        c: type === "ow" ? item.ow : item.pv
-                    });
-                });
-                return list;
-            },
-            getWoordenschat: (level) => {
-                return [
+        const EducationDatabase = {
+            gr6: {
+                spelling: [
+                    {q: "Kies het correct gespelde woord:", o: ["pannenkoek", "pannekoek", "pannenkoeck"], c: "pannenkoek", u: "We schrijven een -n tussen pan en koek omdat pan een meervoud op -en heeft."},
+                    {q: "Welk woord is goed geschreven?", o: ["krokodillen", "krokodilen", "crocodillen"], c: "krokodillen", u: "Korte klank /o/, dus daarna verdubbeling van de medeklinker l."},
+                    {q: "Kies de juiste spelling van het woord:", o: ["bibliotheek", "bieblijoteek", "bibliotweek"], c: "bibliotheek", u: "Dit is een weetwoord met -th."},
+                    {q: "Welke zin bevat GEEN spelfout?", o: ["Het eiland is erg groot.", "Hetijland is erg groot.", "Het eijland is erg groot."], c: "Het eiland is erg groot.", u: "Eiland schrijf je met een korte ei."},
+                    {q: "Kies het juiste woord voor de lege plek: De chauffeur ... de bus.", o: ["bestuurt", "bestuurd", "besturd"], c: "bestuurt", u: "Tegenwoordige tijd van besturen (stam+t)."},
+                    {q: "Kies de juiste vorm:", o: ["tomaat", "tomaad", "tommaat"], c: "tomaat", u: "Lange klank /a/, dus we schrijven één a en eindigen op een t (tomaten)."},
+                    {q: "Wat is de juiste spelling?", o: ["vliegtuig", "vliegtuijg", "fliegtuig"], c: "vliegtuig", u: "Vliegtuig schrijf je met een v en een ui."},
+                    {q: "Kies het correct gespelde woord:", o: ["koninkrijk", "koningrijk", "koninkreik"], c: "koninkrijk", u: "We schrijven -nk- en het achtervoegsel -rijk."},
+                    {q: "Welk woord is correct?", o: ["politie", "poleetie", "policie"], c: "politie", u: "Dit is een politiewoord, je hoort /tsie/ maar schrijft -tie."},
+                    {q: "Kies de juiste optie:", o: ["portemonnee", "portemonee", "portemonie"], c: "portemonnee", u: "Leenwoord uit het Frans, geschreven met dubbel n en dubbel e."},
+                    {q: "Welk woord is goed?", o: ["verhuizen", "verhuisen", "ferhuizen"], c: "verhuizen", u: "Met een v aan het begin en een z in het midden."},
+                    {q: "Kies het juiste woord:", o: ["meisje", "meisger", "meijsje"], c: "meisje", u: "Verkleinwoord met korte ei."},
+                    {q: "Wat is correct?", o: ["snelheid", "snelheit", "snellheid"], c: "snelheid", u: "Achtervoegsel -heid schrijf je altijd met -heid."},
+                    {q: "Kies het juiste woord:", o: ["automatisch", "otomatisch", "automaties"], c: "automatisch", u: "Woorden die eindigen op /ies/ schrijven we vaak met -isch."},
+                    {q: "Welk woord is goed geschreven?", o: ["kasteel", "casteel", "kasteil"], c: "kasteel", u: "Kasteel schrijf je met een k en lange ee."}
+                ],
+                dictee: [
+                    "koninkrijk", "snelheid", "meisje", "verhuizen", "automatisch", 
+                    "pannenkoek", "eiland", "vliegtuig", "bibliotheek", "kasteel", 
+                    "politie", "chauffeur", "station", "vakantie", "portemonnee"
+                ],
+                lezen: [
+                    {t: "De rode vos sluipt stilletjes door het hoge gras. Hij heeft zijn ogen gericht op een kleine muis die tussen de wortels van een oude eik zoekt naar eten.", q: "Wat probeert de vos te doen?", o: ["De muis vangen", "Spelen in het gras", "Slapen onder de eik"], c: "De muis vangen"},
+                    {t: "Daan en Sophie bouwen een grote hut in het bos achter hun huis. Ze gebruiken stevige takken en droge bladeren om het dak waterdicht te maken.", q: "Waarvan maken ze het dak?", o: ["Takken en bladeren", "Plastik zeil", "Planken en spijkers"], c: "Takken en bladeren"},
+                    {t: "Kasteel de Haar is het grootste kasteel van Nederland. Elk jaar komen er duizenden toeristen naartoe om de oude kamers en de prachtige tuinen te bekijken.", q: "Waarom komen de toeristen naar het kasteel?", o: ["Om de kamers en tuinen te zien", "Om er te gaan wonen", "Voor een groot popconcert"], c: "Om de kamers en tuinen te zien"},
+                    {t: "De bibliotheek heeft deze week een actie: als je drie boeken leest, krijg je een mooie boekenlegger cadeau. Luuk heeft al twee boeken uit.", q: "Hoeveel boeken moet Luuk nog lezen voor het cadeau?", o: ["Nog één boek", "Nog twee boeken", "Nog drie boeken"], c: "Nog één boek"},
+                    {t: "In de winter trekken veel vogels naar het warme zuiden omdat er in Nederland te weinig eten voor hen te vinden is. In de lente komen ze weer terug.", q: "Wanneer komen de vogels weer terug naar Nederland?", o: ["In de lente", "In de herfst", "In de winter"], c: "In de lente"},
+                    {t: "De brandweer moest gisteravond uitrukken voor een kat die hoog in een boom zat en er niet meer uit durfde. Met een lange ladder is het dier gered.", q: "Hoe heeft de brandweer de kat gered?", o: ["Met een lange ladder", "Door de boom om te zagen", "Met een groot vangnet"], c: "Met een lange ladder"},
+                    {t: "Als je brood bakt, heb je meel, water, gist en een beetje zout nodig. Het gist zorgt ervoor dat het deeg lekker luchtig wordt en gaat rijzen.", q: "Wat zorgt ervoor dat het deeg gaat rijzen?", o: ["Het gist", "Het water", "Het zout"], c: "Het gist"},
+                    {t: "Met een telescoop kun je sterren en planeten bekijken die heel ver weg staan. Vanaf de aarde lijken ze klein, maar in het echt zijn ze reusachtig.", q: "Hoe zien de sterren eruit door een telescoop ten opzichte van het blote oog?", o: ["Ze zijn veel beter en groter te bekijken", "Ze lijken nog kleiner", "Ze veranderen van kleur"], c: "Ze zijn veel beter en groter te bekijken"},
+                    {t: "Lotte traint drie keer per week op de atletiekbaan. Haar grote droom is om volgend jaar mee te doen aan de regionale hardloopwedstrijd.", q: "Wat is de grote droom van Lotte?", o: ["Meedoen aan een hardloopwedstrijd", "Een nieuwe fiets kopen", "Trainer worden van een club"], c: "Meedoen aan een hardloopwedstrijd"},
+                    {t: "Bijen zijn heel nuttige insecten. Ze vliegen van bloem naar bloem om nectar te verzamelen, en ondertussen zorgen ze voor de bestuiving van planten.", q: "Waarom zijn bijen nuttig volgens de tekst?", o: ["Ze zorgen voor de bestuiving van planten", "Ze kunnen heel hard vliegen", "Ze maken mooie nesten in de grond"], c: "Ze zorgen voor de bestuiving van planten"}
+                ],
+                grammatica: [
+                    {z: "De grote zwarte hond blaft luid naar de postbode.", q: "Klik op de woorden die samen het **Onderwerp** vormen:", multi: true, c: ["De", "grote", "zwarte", "hond"]},
+                    {z: "Morgen gaat onze hele klas naar het museum.", q: "Klik op de **Persoonsvorm**:", multi: false, c: ["gaat"]},
+                    {z: "De handige timmerman bouwt een stevig speelhuis.", q: "Klik op de woorden die samen het **Onderwerp** vormen:", multi: true, c: ["De", "handige", "timmerman"]},
+                    {z: "Mijn zusje heeft gisteren een prachtige tekening gemaakt.", q: "Klik op de **Persoonsvorm** (het eerste werkwoord):", multi: false, c: ["heeft"]},
+                    {z: "De trotse leraar geeft de leerlingen een pluim.", q: "Klik op de woorden die samen het **Onderwerp** vormen:", multi: true, c: ["De", "trotse", "leraar"]},
+                    {z: "In de zomervakantie zijn wij naar Frankrijk gereisd.", q: "Klik op het **Onderwerp** van deze zin:", multi: true, c: ["wij"]},
+                    {z: "Die oude man is al jaren onze buurman.", q: "Klik op de **Persoonsvorm**:", multi: false, c: ["is"]},
+                    {z: "De jonge kinderen spelen de hele middag buiten.", q: "Klik op de woorden die samen het **Onderwerp** vormen:", multi: true, c: ["De", "jonge", "kinderen"]},
+                    {z: "De snelle wielrenner fietst door de scherpe bocht.", q: "Klik op de **Persoonsvorm**:", multi: false, c: ["fietst"]},
+                    {z: "Gisteren bakte mijn oma een heerlijke appeltaart.", q: "Klik op het **Onderwerp** (wie bakte de taart?):", multi: true, c: ["mijn", "oma"]}
+                ],
+                woordenschat: [
                     {q: "Wat is de tegenstelling van 'gierig'?", o: ["vrijgevig", "arm", "rijk"], c: "vrijgevig"},
                     {q: "Wat betekent 'ambitieus'?", o: ["Succes willen behalen", "Altijd moe zijn", "Geen mening hebben"], c: "Succes willen behalen"},
                     {q: "Wat betekent het spreekwoord: 'De kat uit de boom kijken'?", o: ["Een afwachtende houding aannemen", "Snel handelen", "Klimmen"], c: "Een afwachtende houding aannemen"},
                     {q: "Wat is een synoniem van 'vervaardigen'?", o: ["Maken", "Slopen", "Kopen"], c: "Maken"},
-                    {q: "Wat betekent 'rigoureus'?", o: ["Ingrijpend en grondig", "Voorzichtig", "Langzaam"], c: "Ingrijpend en grondig"},
-                    {q: "Wat is de tegenstelling van 'optredend'?", o: ["Terugtrekkend", "Verschijnend", "Zichtbaar"], c: "Terugtrekkend"},
-                    {q: "Wat betekent 'monotoon'?", o: ["Gelijktijdig en saai", "Kleurrijk", "Heel luid"], c: "Gelijktijdig en saai"},
+                    {q: "Wat betekent 'rigoureus'?", o: ["Ingrijpend en grondig", "Voorzichtig", "Langzaam"], c: "Ingrijpend en grondig"}
+                ],
+                engels: [
+                    {q: "Vertaal naar het Engels: 'hond'", o: ["dog", "cat", "bird"], c: "dog"},
+                    {q: "Wat betekent 'Good morning'?", o: ["Goedemorgen", "Goedemiddag", "Goedenavond"], c: "Goedemorgen"},
+                    {q: "Hoe zeg je 'dank je wel' in het Engels?", o: ["Thank you", "Please", "Welcome"], c: "Thank you"}
+                ]
+            },
+            gr7: {
+                spelling: [
+                    {q: "Kies het correct gespelde woord (Groep 7 niveau):", o: ["elektriciteit", "electriciteit", "elektriciteit"], c: "elektriciteit", u: "Elektriciteit schrijf je eerst met een k, daarna met een c."},
+                    {q: "Welk woord is juist geschreven?", o: ["interessant", "interesant", "interessandt"], c: "interessant", u: "Met één r, dubbel s en eindigend op een t."},
+                    {q: "Wat is de juiste spelling?", o: ["miljonair", "millionair", "miljonair"], c: "miljonair", u: "Leenwoord uit het Frans met -jonair."},
+                    {q: "Kies het juiste woord:", o: ["universiteit", "universiteit", "unieversiteit"], c: "universiteit", u: "Geschreven met een korte i in de eerste klankgroep."},
+                    {q: "Welke vorm is correct?", o: ["officier", "oficieer", "offisjier"], c: "officier", u: "Met dubbel f en een c die klinkt als s."},
+                    {q: "Kies de juiste spelling van het verleden tijd werkwoord:", o: ["verbreedde", "verbrede", "verbreedte"], c: "verbreedde", u: "De stam is verbreed (eindigt op d), dus in de verleden tijd komt er -de bij."},
+                    {q: "Wat is de juiste vorm van het voltooid deelwoord?", o: ["gepubliceerd", "gepubliceert", "gepubliseerd"], c: "gepubliceerd", u: "De r zit niet in 't kofschip, dus het eindigt op een d."},
+                    {q: "Kies het goed gespelde woord:", o: ["weersverwachting", "weers-verwachting", "weerverwachting"], c: "weersverwachting", u: "Dit is één woord met een tussen-s."},
+                    {q: "Welk woord is correct?", o: ["thermometer", "termometer", "thermommeter"], c: "thermometer", u: "Weetwoord afgeleid van het Griekse thermo (warmte)."},
+                    {q: "Kies de juiste spelling:", o: ["klimaat", "clemaat", "klimmaat"], c: "klimaat", u: "Met een k en een enkele i in de open klankgroep."}
+                ],
+                dictee: [
+                    "elektriciteit", "interessant", "miljonair", "universiteit", "officier",
+                    "weersverwachting", "thermometer", "klimaat", "archeoloog", "detective"
+                ],
+                lezen: [
+                    {t: "De overgang naar duurzame energie is wereldwijd in volle gang. Steeds meer huishoudens stappen over op zonnepanelen en windenergie om de uitstoot van schadelijke stoffen te verminderen.", q: "Wat is het doel van de overgang naar duurzame energie?", o: ["De uitstoot van schadelijke stoffen verminderen", "Het stroomnetwerk uitschakelen", "Meer windmolens in de tuin zetten"], c: "De uitstoot van schadelijke stoffen verminderen"},
+                    {t: "Tijdens een archeologische opgraving in de binnenstad hebben onderzoekers resten gevonden van een middeleeuwse markthal. De vondst bewijst dat de stad honderden jaren geleden al een belangrijk handelscentrum was.", q: "Wat bewijst de archeologische vondst?", o: ["Dat de stad vroeger al een belangrijk handelscentrum was", "Dat er vroeger nooit markten waren", "Dat de stad pas net is opgebouwd"], c: "Dat de stad vroeger al een belangrijk handelscentrum was"},
+                    {t: "Het menselijk brein verbruikt ongeveer twintig procent van alle energie die we via ons voedsel binnenkrijgen. Dit is opvallend veel, aangezien het brein slechts twee procent van ons totale lichaamsgewicht uitmaakt.", q: "Hoeveel procent van onze energie verbruikt het brein?", o: ["Twintig procent", "Twee procent", "Honderd procent"], c: "Twintig procent"},
+                    {t: "De diepzee is een van de minst verkende plekken op onze planeet. Vanwege de extreme kou en de enorme waterdruk is het voor wetenschappers heel lastig om hier langdurig onderzoek te doen.", q: "Waarom is onderzoek in de diepzee zo lastig?", o: ["Vanwege de extreme kou en waterdruk", "Omdat er te veel grote vissen zwemmen", "Omdat het water daar te helder is"], c: "Vanwege de extreme kou en waterdruk"},
+                    {t: "Planten maken hun eigen voedingsstoffen aan door middel van fotosynthese. Hierbij gebruiken ze zonlicht, water en koolstofdioxide om suikers en zuurstof te maken.", q: "Wat hebben planten onder andere nodig voor fotosynthese?", o: ["Zonlicht, water en koolstofdioxide", "Alleen een beetje zand", "Zuurstof en suikers uit de bodem"], c: "Zonlicht, water en koolstofdioxide"}
+                ],
+                grammatica: [
+                    {z: "De ervaren schilder verft de buitenkant van het oude huis.", q: "Klik op de woorden die samen het **Lijdend Voorwerp** vormen:", multi: true, c: ["de", "buitenkant", "van", "het", "oude", "huis"]},
+                    {z: "De dappere brandweerman bluste de gevaarlijke brand in de keuken.", q: "Klik op het **Lijdend Voorwerp** van de zin:", multi: true, c: ["de", "gevaarlijke", "brand"]},
+                    {z: "De kapitein stuurt het enorme schip veilig de haven in.", q: "Klik op het **Lijdend Voorwerp**:", multi: true, c: ["het", "enorme", "schip"]},
+                    {z: "De bakker bakt elke nacht honderden verse broodjes.", q: "Klik op het **Lijdend Voorwerp**:", multi: true, c: ["honderden", "verse", "broodjes"]},
+                    {z: "De toeristen maken prachtige foto's van de oude toren.", q: "Klik op het **Lijdend Voorwerp**:", multi: true, c: ["prachtige", "foto's"]}
+                ],
+                woordenschat: [
+                    {q: "Wat is de betekenis van 'monotoon'?", o: ["Gelijktijdig en saai", "Kleurrijk en vrolijk", "Heel luid"], c: "Gelijktijdig en saai"},
                     {q: "Wat betekent het spreekwoord 'Een open deur'?", o: ["Wat iedereen al weet", "Een kapot slot", "Een warm welkom"], c: "Wat iedereen al weet"},
                     {q: "Wat is een synoniem van 'accuraat'?", o: ["Nauwkeurig", "Slordig", "Snel"], c: "Nauwkeurig"},
                     {q: "Wat betekent 'legendarisch'?", o: ["Beroemd en legendarisch", "Onbekend", "Geheim"], c: "Beroemd en legendarisch"}
-                ];
-            },
-            getLezen: (level) => {
-                let list = [];
-                MasterSentencePool.forEach((item, idx) => {
-                    if (idx < 20) {
-                        list.push({
-                            t: item.z + " Dit gebeurt elke dag trouw in de vroege ochtenduren.",
-                            q: "Wat kun je concluderen op basis van de tekst?",
-                            o: ["Het is een dagelijkse gebeurtenis", "Het gebeurt alleen in het weekend", "Niemand weet wanneer het gebeurt"],
-                            c: "Het is een dagelijkse gebeurtenis"
-                        });
-                    }
-                });
-                return list;
-            },
-            getEngels: (level) => {
-                return [
+                ],
+                engels: [
                     {q: "Vertaal: 'Ik heb twee broers'", o: ["I have two brothers", "I am two brothers", "I have two sisters"], c: "I have two brothers"},
                     {q: "Welke dag is 'Thursday'?", o: ["Donderdag", "Dinsdag", "Vrijdag"], c: "Donderdag"},
-                    {q: "Wat betekent 'What time is it?'", o: ["Hoe laat is het?", "Welke dag is het?", "Waar ga je heen?"], c: "Hoe laat is het?"},
-                    {q: "Kies de juiste Engelse kleur voor een sinaasappel:", o: ["Orange", "Red", "Yellow"], c: "Orange"}
-                ];
+                    {q: "Wat betekent 'What time is it?'", o: ["Hoe laat is het?", "Welke dag is het?", "Waar ga je heen?"], c: "Hoe laat is het?"}
+                ]
             }
         };
 
@@ -505,7 +441,7 @@
 
         let currentSession = {
             mode: '',
-            level: 'b6',
+            level: 'gr6',
             questions: [],
             currentIndex: 0,
             score: 0,
@@ -523,9 +459,6 @@
         const btnNext = document.getElementById("btn-next-question");
         const levelSelector = document.getElementById("level-selector");
 
-        /**
-         * APPLICATION LOGIC & BOOTSTRAP
-         */
         document.addEventListener("DOMContentLoaded", () => {
             initStorage();
             setupGlobalEvents();
@@ -563,13 +496,6 @@
             else if(appState.points > 20) m = "🥈 Zilver";
             document.getElementById("stat-medal").innerText = m;
             document.getElementById("stat-streak").innerText = appState.streak;
-
-            const engelsTile = document.getElementById("engels-tile");
-            if(levelSelector.value.includes("7")) {
-                engelsTile.style.display = "flex";
-            } else {
-                engelsTile.style.display = "none";
-            }
         }
 
         function setupGlobalEvents() {
@@ -592,10 +518,6 @@
                     window.speechSynthesis.cancel();
                     showSection(mainDashboard);
                 });
-            });
-
-            levelSelector.addEventListener("change", () => {
-                syncUI();
             });
 
             document.getElementById("theme-select").addEventListener("change", (e) => {
@@ -629,23 +551,18 @@
         }
 
         function startSession(mode, level) {
-            let pool = [];
-            if(mode === "spelling") pool = DynamicGenerator.getSpelling(level);
-            else if(mode === "dictee") pool = DynamicGenerator.getDictee(level);
-            else if(mode === "grammatica") pool = DynamicGenerator.getGrammatica(level);
-            else if(mode === "woordenschat") pool = DynamicGenerator.getWoordenschat(level);
-            else if(mode === "lezen") pool = DynamicGenerator.getLezen(level);
-            else if(mode === "engels") pool = DynamicGenerator.getEngels(level);
-
-            if(pool.length === 0) {
-                alert("Geen opdrachten beschikbaar.");
+            let dbSource = EducationDatabase[level][mode];
+            
+            if(!dbSource || dbSource.length === 0) {
+                alert("Geen opdrachten beschikbaar voor dit niveau.");
                 return;
             }
 
-            // Shuffle pool
+            // Kopieer de pool en shuffle deze
+            let pool = [...dbSource];
             pool.sort(() => 0.5 - Math.random());
             
-            // Garandeer ALTIJD exact 15 opdrachten (vul aan met duplicatie indien nodig)
+            // Garandeer ALTIJD exact 15 opdrachten (vul aan indien de pool kleiner is)
             let finalQuestions = [];
             while(finalQuestions.length < 15) {
                 finalQuestions.push(...pool);
@@ -657,7 +574,7 @@
             currentSession.currentIndex = 0;
             currentSession.score = 0;
 
-            document.getElementById("workspace-title").innerText = `${mode.toUpperCase()} (15 Vragen)`;
+            document.getElementById("workspace-title").innerText = `${mode.toUpperCase()} (${level.toUpperCase()}) - Vraag 1/15`;
             showSection(workspaceView);
             loadQuestion();
         }
@@ -670,7 +587,9 @@
 
             const total = currentSession.questions.length;
             const current = currentSession.currentIndex;
+            
             document.getElementById("workspace-progress").style.width = `${(current / total) * 100}%`;
+            document.getElementById("workspace-title").innerText = `${currentSession.mode.toUpperCase()} - Vraag ${current + 1}/${total}`;
 
             if(current >= total) {
                 finishSession();
@@ -681,6 +600,7 @@
             dynamicContent.innerHTML = "";
 
             if(currentSession.mode === "dictee") {
+                // qData is hier een puur string-woord
                 dynamicContent.innerHTML = `
                     <div class="exercise-box" style="text-align:center;">
                         <button id="btn-dictee-audio" class="btn btn-warning" style="margin-bottom:15px; font-size:1.2rem;">🔊 Luister naar het woord</button>
@@ -691,7 +611,7 @@
                 
                 const playAudio = () => {
                     window.speechSynthesis.cancel();
-                    let msg = new SpeechSynthesisUtterance(`Het woord is: ${qData.w}. Ik herhaal: ${qData.z}`);
+                    let msg = new SpeechSynthesisUtterance(`Schrijf op: ${qData}`);
                     msg.lang = "nl-NL";
                     msg.rate = appState.settings.rate;
                     window.speechSynthesis.speak(msg);
@@ -714,24 +634,29 @@
                 document.querySelectorAll(".word-bubble").forEach(bubble => {
                     bubble.addEventListener("click", () => {
                         let idx = bubble.getAttribute("data-idx");
+                        let woordSchoon = woorden[idx].replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
                         if(qData.multi) {
                             bubble.classList.toggle("selected");
                             if(bubble.classList.contains("selected")) {
-                                currentSession.selectedAnswers.push(woorden[idx]);
+                                currentSession.selectedAnswers.push(woordSchoon);
                             } else {
-                                currentSession.selectedAnswers = currentSession.selectedAnswers.filter(w => w !== woorden[idx]);
+                                currentSession.selectedAnswers = currentSession.selectedAnswers.filter(w => w !== woordSchoon);
                             }
                         } else {
                             document.querySelectorAll(".word-bubble").forEach(b => b.classList.remove("selected"));
                             bubble.classList.add("selected");
-                            currentSession.selectedAnswers = [woorden[idx]];
+                            currentSession.selectedAnswers = [woordSchoon];
                         }
                     });
                 });
 
             } else {
+                // Spelling, Lezen, Woordenschat, Engels
                 let textContainer = qData.t ? `<div class="exercise-box" style="margin-bottom:15px; text-align:left; background:#fff; border-left:5px solid var(--primary-color);">${qData.t}</div>` : '';
-                let optHtml = qData.o.map(o => `<button class="option-btn">${o}</button>`).join("");
+                
+                // Shuffle opties zodat het juiste antwoord niet altijd bovenaan staat
+                let shuffledOptions = [...qData.o].sort(() => 0.5 - Math.random());
+                let optHtml = shuffledOptions.map(o => `<button class="option-btn">${o}</button>`).join("");
 
                 dynamicContent.innerHTML = `
                     ${textContainer}
@@ -758,17 +683,17 @@
 
             if (currentSession.mode === "dictee") {
                 const userVal = document.getElementById("dictee-raw-input").value.trim().toLowerCase();
-                isCorrect = (userVal === qData.w.toLowerCase());
-                correctFeedback = `Het juiste antwoord is: **${qData.w}**`;
+                isCorrect = (userVal === qData.toLowerCase());
+                correctFeedback = `Het juiste antwoord is: **${qData}**`;
             } else if (currentSession.mode === "grammatica") {
-                const cleanAnswers = currentSession.selectedAnswers.map(w => w.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").toLowerCase());
-                const cleanCorrect = qData.c.map(w => w.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").toLowerCase());
+                const cleanAnswers = currentSession.selectedAnswers.map(w => w.toLowerCase());
+                const cleanCorrect = qData.c.map(w => w.toLowerCase());
                 
                 isCorrect = cleanCorrect.every(w => cleanAnswers.includes(w)) && cleanAnswers.length === cleanCorrect.length;
-                correctFeedback = `Juist antwoord: ${qData.c.join(" ")}`;
+                correctFeedback = `Het juiste antwoord is: **${qData.c.join(" ")}**`;
             } else {
                 isCorrect = (currentSession.selectedAnswers[0] === qData.c);
-                correctFeedback = qData.u ? qData.u : `Het juiste antwoord is: ${qData.c}`;
+                correctFeedback = qData.u ? qData.u : `Het juiste antwoord is: **${qData.c}**`;
             }
 
             workspaceFeedback.style.display = "block";
