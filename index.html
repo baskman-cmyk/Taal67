@@ -1,92 +1,4 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taal App - Groep 7 Woordenschat</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-        }
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 5px;
-            font-size: 24px;
-        }
-        .meta {
-            font-size: 14px;
-            color: #7f8c8d;
-            margin-bottom: 25px;
-            font-weight: 600;
-        }
-        .word-box {
-            background-color: #ecf0f1;
-            padding: 20px;
-            border-radius: 8px;
-            font-size: 28px;
-            font-weight: bold;
-            color: #2980b9;
-            margin-bottom: 20px;
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .meaning-box {
-            font-size: 18px;
-            color: #2c3e50;
-            margin-bottom: 30px;
-            min-height: 60px;
-            line-height: 1.5;
-        }
-        button {
-            background-color: #2ecc71;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.2s;
-        }
-        button:hover {
-            background-color: #27ae60;
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <h1>Woordenschat Trainer</h1>
-    <div id="meta-info" class="meta">Laden...</div>
-    
-    <div id="word-display" class="word-box">-</div>
-    <div id="meaning-display" class="meaning-box">Klik op de knop om te starten!</div>
-    
-    <button id="next-btn" onclick="toonNieuwWoord()">Volgend Woord</button>
-</div>
-
-<script>
-// De database met alle basiswoorden per thema en les
+// Basis woordenlijst voor de taal-app
 const woordenData = {
   "Strips": {
     "les_1": [
@@ -100,9 +12,9 @@ const woordenData = {
       { "woord": "gedetailleerd", "betekenis": "Met de kleinste bijzonderheden erbij." },
       { "woord": "de gezichtsuitdrukking", "betekenis": "De manier waarop je kijkt. Het gevoel dat je zonder woorden met je gezicht laat zien." },
       { "woord": "grafisch", "betekenis": "Als het met tekenen te maken heeft." },
-      { "woord": "de identiteit", "betekenis": "De persoonlijkheid. Dat wat je onderscheidt van others." },
+      { "woord": "de identiteit", "betekenis": "De persoonlijkheid. Dat wat je onderscheidt van anderen." },
       { "woord": "illustreren", "betekenis": "Tekenen. Versieren of toelichten met plaatjes." },
-      { "woord": "het lettertype", "betekenis": "De lettersoort. De manier waarop de letter getekend of gedrukt is." },
+      { "woord": "het lettertype", "betekenis": "De lettersoort. De manier waarop die letter getekend of gedrukt is." },
       { "woord": "samenhangen", "betekenis": "Met elkaar te maken hebben." },
       { "woord": "de stijl", "betekenis": "De manier waarop je iets doet." },
       { "woord": "de strekking", "betekenis": "Dat wat je met iets bedoelt. Het idee dat je de ander wilt duidelijk maken." },
@@ -319,47 +231,3 @@ const woordenData = {
     ]
   }
 };
-
-// Vlakke lijst maken van alle woorden om makkelijk willekeurig te kiezen
-let alleWoorden = [];
-
-function bereidWoordenLijstVoor() {
-    alleWoorden = [];
-    for (const thema in woordenData) {
-        for (const les in woordenData[thema]) {
-            woordenData[thema][les].forEach(item => {
-                alleWoorden.push({
-                    thema: thema,
-                    les: les.replace('_', ' '), // maakt van les_1 -> les 1
-                    woord: item.woord,
-                    betekenis: item.betekenis
-                });
-            });
-        }
-    }
-}
-
-function toonNieuwWoord() {
-    if (alleWoorden.length === 0) {
-        bereidWoordenLijstVoor();
-    }
-    
-    // Kies een willekeurig item uit de hele lijst
-    const willekeurigeIndex = Math.floor(Math.random() * alleWoorden.length);
-    const gekozenItem = alleWoorden[willekeurigeIndex];
-    
-    // Update de HTML elementen
-    document.getElementById('word-display').innerText = gekozenItem.woord;
-    document.getElementById('meaning-display').innerText = gekozenItem.betekenis;
-    document.getElementById('meta-info').innerText = `Groep 7 • Thema: ${gekozenItem.thema} • ${gekozenItem.les}`;
-}
-
-// Start direct met een woord zodra de pagina laadt
-window.onload = function() {
-    bereidWoordenLijstVoor();
-    toonNieuwWoord();
-};
-</script>
-
-</body>
-</html>
